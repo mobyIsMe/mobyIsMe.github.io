@@ -3,15 +3,33 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Moby Blog</title>
+  <title>tableau实践 | Moby Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Moby Blog">
-<meta property="og:url" content="http://mobyIsMe.github.io/index.html">
+  <meta name="description" content="北京市空气质量可视化从网上download一份2016年全年北京市空气质量的数据，做了一个可视化的图表，看图：通过上图我们可以清晰的看到2016年全年北京市的空气质量情况。先看一下原始数据：step1：导入数据：step2：分析下我们想要的最终效果，我们需要在维度上按照季度和月份、以及天分类，而度量则是我们最终需要看的数据：空气质量也就是AQI指数。 step3：于是我们做如下操作： 讲日期拖到列">
+<meta property="og:type" content="article">
+<meta property="og:title" content="tableau实践">
+<meta property="og:url" content="http://mobyIsMe.github.io/2018/09/30/tableau实践/index.html">
 <meta property="og:site_name" content="Moby Blog">
+<meta property="og:description" content="北京市空气质量可视化从网上download一份2016年全年北京市空气质量的数据，做了一个可视化的图表，看图：通过上图我们可以清晰的看到2016年全年北京市的空气质量情况。先看一下原始数据：step1：导入数据：step2：分析下我们想要的最终效果，我们需要在维度上按照季度和月份、以及天分类，而度量则是我们最终需要看的数据：空气质量也就是AQI指数。 step3：于是我们做如下操作： 讲日期拖到列">
 <meta property="og:locale" content="default">
+<meta property="og:image" content="https://lh3.googleusercontent.com/LIULr45n_hMZLqdx8ajKPF6W4z0fUJ_Pk0r6WMpT24YZXqOrDoPJj1V_jZNLx9NCcas0dnesiN1gnmSUvbSdHY5G1iJ0IvdNLjBGEBaxznr85PzKFN2d1MFhkyyQUbQK2PUE3pjpKA5EUabAFrsaSKsoPoVmcpcxb_pSYRHn50V6m4wSVJTUxx5pTjwe2U7-atoik-W5_SkwzQGg0nHEKBc_317c1E-a4NpOACNqJVxoQbkp-8Sd1Ka5zit-dltlT-DQ7Ld7h3hzr58Q6hkBS8fKNVYIP4p430Yq0TNXB6S4lBm4nMq0JBVmJNAisORZW1axwYr0zdZ7pIC0U4OZ_wFH1-4kwuN_9XQYZbgaQhG1lZooUbIu2ykXkKS7DRkmj5T0o-aQ3d8XTr0B2ltQdHzbVmuEF8o2XJp8oynsMNMfwXPSuHiWhHwlVx7odG9MJ8lBCx2ShA5no3tg2zx2r5fBWlLKqQ_IGTeCQCXTdrV701vQFSlrEkcIxBNm9uWfFiQo9gfInZS4V602qLjPMvZ3IlLXZ-RMXdwfqG1PYg4GdPgY2NwucPsaQ9SKNKyEIlI8LI2UMGXxWhxisojfOE5CHen-Ir9RMMOouGmnh50dh5ceHicJou0dOhj6b4OFh4hTmfXn0HdX56jvck25ifc=w1340-h538-no">
+<meta property="og:image" content="https://lh3.googleusercontent.com/yudTnNMWV33MampDRkNGImK23NsI7dOKKJqAZOaHKnure5P_gM18YAMqbud8Oa44a4dIbK-MM9mi1TjjzGzUTsi4-V8j1W40O9ARQ_CobRHl-Bc1L4eCerlakhb9tuGDutTiK-q4dmPUmt10z6EULL-fobGLLpmj2gHzSwGgMC_2ISvAb-YvqCSwMWch3rnDQ799HxgclgMhv-Jnqp01mmZjfSb7RVWYbf4TrDltkAytpWasbmUeuel8byCNwIHEE_fkgUpf0Heupsd9JynrdqCEat_3Qm4TVTTQ7PUZJ2Ecl26SJC1nnQQOsohMaEgPMYve_S7b_IJMUMKfnrOBaKI4pSP-7VAv1t6vm7RXwUfCQnQeVQMy5sZprLjqzvvqnxbFB4tivtUjZcJ_BCI-bn8MlVpxZB9yp_kyCjCobS7tDIVvq_t1o64XQkFZQBh053cWjnFK45hkOy_rg4WopJm-bpBujsGJHGTsi-Ox8pHAoaT3KRxteDIbhMc3GWFjG6CYSXeNbAZypq9a0n5WGX5vWT88A2r-lFAUBWoYKtw8TM-qTWTDeg-i5SwXgbO7lmIuqBLfHD_VdND4AJtDX0OcxldIinHan1Wq-cefHiVBu2TIRkmbMC_Z8s1p667vy47PnsuJY6UUKb1heRvPRgg=w336-h246-no">
+<meta property="og:image" content="https://lh3.googleusercontent.com/I1kaumet0R2gVx7jQIk5AdumG7LQQT96wmB7_8UTYWkKeBuntpOU0LP-qGstj_eAz9L-hjsoLNDrwQnsr2uNIrRmIkspC6VKnApZwljaxYoP3Dr2u9zy3W0c7Psjk-BwLPQ3prmp7UENtmPwRM59IqUBA5xdeuxuA9NECzJ0HK1e6yj_rQM9lKncJboYhyCHSuSlqCDuOWPoy7jR7CPMniZExjJxwycacgq6dqPC2FVzzUtty1ckfackiJt-VSW4YvcOvszLfq0fAheyFDQqfjEeGlWOX-HkiGfxQZDTc7K0sxmt81oXJqVW5bLdbn78F0QZ12S8DR0snZ9OG1WhA63xtEGalVVvD3f41KNtJ7YBqa5Iyu7WdLI9mm5hPrZ4qhYVnJ5qiBOaDBr_4VQ02x_wgnLVPFevbiBSpu2W5kvpHqfHLf96j6eFznVR2N0tLCQEcj6RO3qa58jN409c-630jdNrru89s6q-e3fVuq03QjCIKFaWifZcNbS909ul9Akx_BFWi1FlPOqXCW3Wxr9saKO1rF5nq4xKMRCXO4id26aWKyeUYI3y0YeQx0LJ05ZvaxtHKY2eVYpUdSFyx5_InidfU9in5ge6C8VYkXlViq5KiymlKmMUD0fzJOtCtglUmbx_wJac13-n_Nl107o=w1000-h449-no">
+<meta property="og:image" content="https://lh3.googleusercontent.com/XKC1CpL2EVucFUCbz9CedmP2eh1gDLwyMyPTv6DVAgzrxwuA6IKvd2GN3SIJ1oxeRUUNCntivXnJ437bo1QmJJLNZQUCE5QMUGIPeiHrsRl0NKQ0GgsVWiurwyfwFrsmqRw--dALdst9S-L6Vk7AGvBgfAVNKXuIGSpqLX5q38fxHM6z691sHcZZNdwex_KRkmm8nZFmZU8qP24pfxgGi2unVy_c5IGNhR0goGPDkQoKAQD3xBXdRWTsNWnjcZljkZ_UynFbPipTVgVRHdxMsBlVHg_-wfgKSFcuMw3fHOZl3pVWuUOPIAnzWEQACTR7UwiZxbXuZEU0ZZiAIO-jzCmjiG36E4KaB6p4sdEOKSfwSYHE7NQkJo3FxJGGtyeh580HUXeSC3Qu_QRwipiFUr1I8ZOriJ0nWSXBuaNRig8ItU_H_4TPMRpcGVCfMF36-saNFZR02CPoqFIKxPxUqJyrjOeRqxaiITOWR3q8W8vWkXzYzmU4_3wR-Q5XBc8jl-G4vSoOAwk13m1BHmfjJ-Auf7bQ0C5IVcneFvUMOFfQaRlJSMsYSkmJh1cCrP-R-lxMWR0SD4o4Wwb1LkoD3ViCd2I_6hki_kN4fwnCl5BsfbiOfg0xsLzK0zwOLtX_mmbI7i3F_fylnZDmRvTGxZc=w1340-h538-no">
+<meta property="og:image" content="https://lh3.googleusercontent.com/6E2kVLRM9H4zmsazfwClHMa-55eBmT_Gl0d_Tr0cjmvR0r3Dvg-AgtWC7gFBEa_0nDzDWH7Vnaoa2s_on3uenKA54r5NrweAnrjMn7rG-n1h0cDC4VEmVEoSDwltl_7nL-pZ6AxE9dM-lUNeJ9V-ze0B5JksTqfoClu8bilxjvw20AdRokIXsIhV01Yraw2F97whQgEmh4m4zwxmnzMsVZSew7fy8QNtWKhE8fj-BlRHMo93IXMgSQzrdxL44oqgcNjkHGV-xnHPf1dqvt3SSyZ2syNZbIm8tkC2z1QKq8AK5x3LL6OHivRRzpVaMAwD4luGYGaSjxeo4B7ZnaWxm9SjscoAXoc_7eg5_n_LSRxxO9kE_NIfB8B8jWW16ewsl7KXJ1ZoXpfMpSQxiVRRTkBmtySBq4blWq09bHEcf--Hlrp1Oqu6nxbKuk9n1qx29Q2rEmB-d4ZzPddEs0M5ze_UPS_OBtigAR9gu2mbSvLYcn6YJ3H_Ht0CGLc1NomlEpe66nA9kQvVkQh8EBgDM58O8L28b2nCShZYULBZ1XrzAzZzVogHSulOSzGho123zqRhb8sElh6BQsvxAdC-mRf3FACZyQqXbbVHIfn_UqXaB_DC0UrPSaayM3BjI-2aR2p0QO4-_x94GWCzfPq2_BI=w993-h454-no">
+<meta property="og:image" content="https://lh3.googleusercontent.com/rKus0GKLslkD0LE-Njs1jsxg6_NLUJjPQDbwRmKmVPo9dNolBjjpWNx73rW0u0UrIUKdBjClBSw8T-Wenf8RA0wV1hUW1vzKWlx7WHqh9CH-GsE76h00PtauLTm68h7zg7HPxJS83KuR-6AjQ8YE4ZYIsGLSYEh1tMvPvkqG0REfTIhNCOBwW3oziqvek3jK6SmsgQVJeBdMbA6puY8n_7fEGj5bJ0ShKeARwAdkNypeZjUrmocbDdUv-A7UhEeWgVJ6nn5PQuNHfzqlQ5ZH9qJnxOWPK9-UpKaDiZJ1UNlC0LttZ-fkXjhyXzIt0ja6lgP8oJ1pZcxDts-jNohzdKLHCi6tpgVUUmdDVpdzB5fYiCibaUBUpbupkCaOpOWcFekxXBu6fvFGcBtdtZ_Ny0xHruZam0vBJFezcfqDHMyKTgYAYuVKK0TCbzfSzg5sBqXZ-RGJbUQHXm_HjlaNiuI_We0x5h65wVqCBjul6cpsVC46r3Kgsr1PIR4fhDxfU_V9M596XuwDHAOk4cQ-_guWlVkWbuwoVHiibW36rsJX-8bVBL6FrMVpKEeOiQsbH6cB9VgKdcR1FwAG8JT3O3pUfoTyWD4BzuQ0qDmR6EkgzDbKzlPPhXMjthGyWXyR7cdFJlCeU1NCmYolwgaSjtY=w1000-h715-no">
+<meta property="og:image" content="https://lh3.googleusercontent.com/_oWQXgmRlUczZCcwbw7JKmfFKZXBlvplbeAUi_98wk2bv3r5eIOv2Rrcufwqlhvv9cU7hye4yMiUsiloptBtGK2lgnyLvz-ElDl2bUlZpPdLnCrr4ysfFN43p6AJSLXrSdshMGjxolUv882Zu6bUfuKGxR3bakQXiGvazjcY_WJn2xUPtAIkBr4C89rqFPN_hCN0fTyXVqklWPL-2dvY622f9udvAnzZC86K7C6fv8SRAaJJC6abAEbrYP2PZOxv4VRz-s7pZuH7n0w9K5YHIrP-lck54apixMLPtcgy3-CO7i7eSV384CA1t5fRLB6ona9RjDCyx7Lpc0_5ByM3tNNc063P7NhnGukObvb3V38vDalViTReZ0FfmTE0acwpHembI4j8Sr1bh5vC-k1XnWNB7yN8Q0D3vr0ZjoumpUDCTsl4rbUgo0J9Lf8J3teEo8E_C3m5wbolvWwYDVSPg8fybaUyhs7yYPSWifG9wDc4LB6UsXnaQ3E7EMDRlVvPZmlRI38iy36Qb8ssjl91QVpTrVkhbuKEqf1T9CROziS2ura4LGHj_HLZDrqEBQvw3pyFVru-rZqgQciKzVTxxtx_gK_yl5adrgip6UY69-11F4FIzw5hmTh7-FVUe3ceZDoUZRwNcinu1jkCaBLoVeU=w469-h201-no">
+<meta property="og:image" content="https://lh3.googleusercontent.com/bifxfz3dWpwrxK4wId2MxUB5ttWPoK6BB5eN07LSxzS9iMyNXDVnETD7u-JgrlwQawRxAXmus-si6X_Sqs46ra63ILlnlvGLUrtPBcNaDRCKe78h62e1jfqKY5tkiNSD388g3wvTnfdEBkaQ9PCGS22m0-ve9zkMVWzTicwM_HlXAO7gymb2Z_lJx8gFmgwrQYCJbKdCHpbdhtTKIHkAz5YxW97p-ZcWA61mQW6_xCONlIRV4qUw-gu_2iKoySznYx6W8mKoGrYRpTVn6Rn3_DbanfTzY9OtMfWEGuzhrPq7cQh6CyG-Pf9E3_Gh1rsY8jwtMvtLGoiASALiECyzDIXSa-KpStvsEz7g5wAX2dMEhLPBP4QKjeTCPSairQi8UX8x8vWRkx3j1g5pCEkYrIQuMYKhv4pkjWjq8YpolQTipMEBlhaX9JkwPJtfT0bv9HUXuB6gfMGMcD9AE0x_kIF4hDdPVx1W7BJNsZZwinV55CdK2GC1v_W2lwFYLw9Z6INFsht2D4X4j0HQSBqPoJsTa2-bKq1xvGa5hND76W3t0xIJQBIp4YE4H7OXav8K2L1RwXd0Ba344pLG2YVtor0cGQwRy-n8h7pPC9hGKpSk8oAwwrLPPyMahcfZ_p40CocJMpbvBv4JOe1-7wsC_QE=w416-h525-no">
+<meta property="og:image" content="https://lh3.googleusercontent.com/eJsCpwcEVTfzDeTH-84DFCywFjZhILGkFeKV_jPdc7IgvpNhgDmbzufh2UMSt98ZvVocSpV__KXVI0-8ZhL7XtQ9VVei0Cv92ri5w79Ss6Rv24EToODBH4ah8yzqZOXLdU7puT2ra0fQvFukP1sYGNxSW3A4VDnHs0EQZCLLmzmdNfPxWatvInfh3MTE6xnGNuoEbbfSPkRhlqsuscxkD06M_QsKrq7sfpOMPJ0elS611WxfnGeieewr_j3lQi-l4873AzJyjiYkbbGhVKdr6rl987KVmY3GkuD6lsar1g60D0zbVEXe8kZ_UiKkIWUyqFw8ajMZsPdjqYndgatu8zqRBGa2lnSFCWMJc-y0pnBqQsmS8czboqNDS_r_iFiH3wRTlFMK8Xyo6RM5-VkpcgVQN7mXico9saMCTk08Pr0x9uIKMrOir-xKuBP4DDcubnM6jIZKYX6E2NXx79Rf8GXB6n3JQBAh-TtL3nDA7AiCiFh3zdlfaDyNBjgprH0GOnNw0hRNkcoyXFbqJE1OeBCXq4PAxhu1kyaji75-_lBQkt3yzfSUNmgrM_nJ4ovj-tNdcTYh5Alk4s9Tv18MdU2__QTgwsRe8pJk7TgVBzwGU7eHuMsE-PsA5DSozsT-M15aqr64pOfacgW1DlLaSoM=w423-h662-no">
+<meta property="og:image" content="https://lh3.googleusercontent.com/aD0tHleajcmDlW6uuUQI4NJW_jOhubiXOavFoK3pB2AhQQyhawSfl76n1YsH-RKnYTn3GNxXgM0N7lrrbhNProWRbUZ1DQKS2HqAjMN6jkX_aMj4qByqpcIleXNuH8jp7UXUmyAZMyE32OWWjBzOjdEw9j9fuKpDt1Q9gmhWFHXHfWb40SCWKnu7BTmIXTBizMi9n9v0uo2S0TzUj5b8AQoOFgjaJandWOXZgfr77CRR48o_XjJcX8hWQfnUvVuS95zmFMApbbNYdwrfR_SiuAqUpbSi96wd2ZCtWdnXYo1Ijj-l13R9EKlbYnya8a7F6sCUpaL0fLVCoaG1O4BA7sbBewiBf7QE-dXOehHug6ncQeURIERXGbmUgoEriXDaeUkq4S_HMhA6dFYMXOXyoqaToROrhkujC3P90bZBugKonMexnsEaB3_OQgt3DUABl-7e7adAPcs7KI7n0mX3lRuljZKEXSntCapf2spENTFUTCIAiM3ncXde0wdRziaI_wDcL-tTFd-6imTBhT6vCjVK1PkCFYVHI7ogzDvfZqi7Fj_7KMS7diNDZHQ_381YWUIljF3LOFYRVlwmbevU1qAbunJe1SFNYl1ETsG_PFmJtAVu100me5gXwhai99dnl-jqVhF5g5QyxEKZjuvUVV8=w977-h404-no">
+<meta property="og:image" content="https://lh3.googleusercontent.com/MMiXPL1Voy4hdqIlPJEUP9FSLEgC_j_VeeGhu3fH52Cn7AJG4UUZSAGwOYDpOOwFhL-X2xAeJWdS23v0t4WQkypZJd7gnfnOHj1lqJhlJFsUO19WiJa5FSoBZDndFoCWURexer-UXulb8E3oliJTBXVlOs7YgkXBzJI50QCIQMcfVPctSdyv8n7BX7HDvMV5ctXpy9T96KjItBfAFR55i_t9OrifXv3_ZY_jVaxeF4JntMR2iPoDYNHk489YE303HCRiIpn2pH1zkfCy7CNW-mXit86m-cJe0-grnFNAayaBNU0oPP-rL4PstAvJ_K1ht2twM0K4EGR6iS1OHZi9usCRSJDtDnLx_j2ihd9ng8E5yA5Khb22KlQKBwl2s9mVZIsHjCUY_ntDYR6izhZhwKGrpKwo45SxLTE7gi6ZLjRKNZYERjXHg8mxx5_17M4nwW3fVqVFanQE9YOFLYzX9Xd7KukEtzhCTl80XAk2bkoJotR-ji28Dq6fEx5EsQdZc7bHNCHwPR7GR7m6BLuX_vxE1Vf_gr23Q1D1JuFwqpmVA9QCjdbr9zEqzDF7qvh1bk-m-c83K1gvBoVQWlgZGcxL1QaOxL4oC8I4IdUnLpZW-JYVqGxJPLlp7tC3R21Cxqutb6UTVz5hwWd_p0Km1mE=w308-h369-no">
+<meta property="og:image" content="https://lh3.googleusercontent.com/eVN3uoubJFPx1cmUMnF1yosYPMLDemdZsoi9CT4o31XshiNZTlmrvj1zChvTBJeUuE1veab7fM6coI2n7jp4DJcceZQB8PVFPll_hTpe4I9OJI3R5WIuVtySMp8_isOd0p1uPbqDacL2raGHPvdteG2RuYQ_Xt_BxVy9tqCIUZJrMbovoZuwsgv9UVSmOVDXqO0qibkF59Ioxoyw-pEpCbygawvnf491vwQH_VMGYyG2vKhd2P14CStwcuZ3xLAwhsioRgn89LC9QPIN91kDXz7eF0hJgVmRL_efuCGPtLQZuifBGaU6bhk3wHwfG7heUoD6ZxmdgWBnxKNKjmvga-CgyqE7_k208RHJ_dKKyhKBh3So-3QBUtkIiiXiqvnbPNDC2KA_YfvsKWEp7a2KhPY8BAYLcElokh3p5X1VnGRdVPqGG3qulyk5_dW2x4Ak0h2Fq2g5JK6Buwr34YWZdGyL7QKTgb9Jae243c370sll6l0EQcLPSObznQPmgiO0YXfU2TzaOhpuwWJBqa26gefjLusR8sSBOlEAN0OklGbJLeoUZRaL7DwSwmrPgk2wtoM2SQ8ewT1AvcpUTWBD-kYk5dDPtkS5Syj6X5M4tl4rJkjM2Y_gfLYn3rcQ6TLqLvb9UQCUnmXCX25L2oRJXzc=w497-h452-no">
+<meta property="og:image" content="https://lh3.googleusercontent.com/MgAyHUHpbVw410W1T6UoAK3vPBiYn86hwhB_LHa0tNAKfsGrxXANuR7dYHAiNNQ6OQNTi2-5C4hV2E2mEsMrL7ItM6OgD2W87b_QFVpFu4JyvznGL4giOW9gzqmHhGA0P7HE5hRms8G4i6voUpPz1hh3SGDWaC9CVkay8RTBmCa0HxUJ7zWbg_jt8Ahl5iEM4Pkjn2DCiUj5qtqTlPAn0Qm6bqCIXT178fNcGvJwwShElgs2p7IUL1YHPwC8KbNC_zL55Ca1s9uiHj8B4ZtR5cPoxV2f8TuRvv9da5d4-9HB8Ri2PmZiRutIwJ7xmS2s8MGbjovg4DW6GrBJxPkfayJdW9KOgNLf9QEIC5PmJ8pcrov6R9Tr1kgdCWtgPbhY5nhVN6zuprbdULK--bz1Oy9WXjshgAuwN9vQDBvrrgovKfQCAiifPldOgS7qxrQRS5itq0FXfGXaSEIP8OB7KZy1HN0nWoXPCnv0CRnIjDIfpoYxKrwOAyqOOD9-W5xSK2s4B_USYGipRCcZfQolVR4dk8c2nOzAnaK0aZrubGzuhBPPWLO26ZvmFAKo_ytvOKaCXq5Uv7cpCJvSAntPSPYSeuQzTFkfQvEx9O07vzNdsX2a8JaRDsmsH8mIaMgsa-_cdvG0YIbRicmxjsY3pW8=w505-h465-no">
+<meta property="og:updated_time" content="2018-10-27T10:54:24.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Moby Blog">
+<meta name="twitter:title" content="tableau实践">
+<meta name="twitter:description" content="北京市空气质量可视化从网上download一份2016年全年北京市空气质量的数据，做了一个可视化的图表，看图：通过上图我们可以清晰的看到2016年全年北京市的空气质量情况。先看一下原始数据：step1：导入数据：step2：分析下我们想要的最终效果，我们需要在维度上按照季度和月份、以及天分类，而度量则是我们最终需要看的数据：空气质量也就是AQI指数。 step3：于是我们做如下操作： 讲日期拖到列">
+<meta name="twitter:image" content="https://lh3.googleusercontent.com/LIULr45n_hMZLqdx8ajKPF6W4z0fUJ_Pk0r6WMpT24YZXqOrDoPJj1V_jZNLx9NCcas0dnesiN1gnmSUvbSdHY5G1iJ0IvdNLjBGEBaxznr85PzKFN2d1MFhkyyQUbQK2PUE3pjpKA5EUabAFrsaSKsoPoVmcpcxb_pSYRHn50V6m4wSVJTUxx5pTjwe2U7-atoik-W5_SkwzQGg0nHEKBc_317c1E-a4NpOACNqJVxoQbkp-8Sd1Ka5zit-dltlT-DQ7Ld7h3hzr58Q6hkBS8fKNVYIP4p430Yq0TNXB6S4lBm4nMq0JBVmJNAisORZW1axwYr0zdZ7pIC0U4OZ_wFH1-4kwuN_9XQYZbgaQhG1lZooUbIu2ykXkKS7DRkmj5T0o-aQ3d8XTr0B2ltQdHzbVmuEF8o2XJp8oynsMNMfwXPSuHiWhHwlVx7odG9MJ8lBCx2ShA5no3tg2zx2r5fBWlLKqQ_IGTeCQCXTdrV701vQFSlrEkcIxBNm9uWfFiQo9gfInZS4V602qLjPMvZ3IlLXZ-RMXdwfqG1PYg4GdPgY2NwucPsaQ9SKNKyEIlI8LI2UMGXxWhxisojfOE5CHen-Ir9RMMOouGmnh50dh5ceHicJou0dOhj6b4OFh4hTmfXn0HdX56jvck25ifc=w1340-h538-no">
   
     <link rel="alternate" href="/atom.xml" title="Moby Blog" type="application/atom+xml">
   
@@ -64,54 +82,7 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-    <article id="post-hello-world" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/10/16/hello-world/" class="article-date">
-  <time datetime="2018-10-16T08:10:30.000Z" itemprop="datePublished">2018-10-16</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/10/16/hello-world/">Hello World</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://mobyIsMe.github.io/2018/10/16/hello-world/" data-id="cjnrbw8950000qur0ythivmpl" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-tableau实践" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-tableau实践" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/09/30/tableau实践/" class="article-date">
   <time datetime="2018-09-30T10:20:14.000Z" itemprop="datePublished">2018-09-30</time>
@@ -124,8 +95,8 @@
       <header class="article-header">
         
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/30/tableau实践/">tableau实践</a>
+    <h1 class="article-title" itemprop="name">
+      tableau实践
     </h1>
   
 
@@ -156,159 +127,28 @@
     </footer>
   </div>
   
-</article>
-
-
+    
+<nav id="article-nav">
   
-    <article id="post-Tableau基本概念" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2018/09/27/Tableau基本概念/" class="article-date">
-  <time datetime="2018-09-27T07:44:00.000Z" itemprop="datePublished">2018-09-27</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
+    <a href="/2018/10/16/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
         
+          Hello World
+        
+      </div>
+    </a>
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/09/27/Tableau基本概念/">Tableau基本概念</a>
-    </h1>
   
+    <a href="/2018/09/27/Tableau基本概念/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Tableau基本概念</div>
+    </a>
+  
+</nav>
 
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>[toc]</p>
-<h4 id="工作区初识："><a href="#工作区初识：" class="headerlink" title="工作区初识："></a>工作区初识：</h4><p><img src="https://lh3.googleusercontent.com/-ibExzg2jfiI/W9Qbhn3YZvI/AAAAAAAAADU/VefjFVOSx6QEnSMBk0XgheX40wJfkM6NwCHMYCw/I/WechatIMG221.png" alt="![WechatIMG221](https://lh3.googleusercontent.com/-wriNn-jy83s/W9QbjfRyy3I/AAAAAAAAADY/Gf4v8hbOXYc1nd_yowByZ42gS1RJjiimQCHMYCw/I/WechatIMG221.png)
-WechatIMG221"></p>
-<p><strong>维度和度量：</strong><br>度量：往往是一个数值字段，将其拖放到功能区时，tableau默认会进行聚合运算，同时，会生成一个相应的轴</p>
-<p>维度：往往是一些分类、时间方面的定性字段，将其拖放到功能区时，tableau不会对其进行字段，而是对视图区进行分区，生成各区的标题。</p>
-<p> <strong>离散和连续</strong><br>在tableau中，蓝色是离散字段，绿色是连续字段，离散字段在行列功能区总是在视图中显示为标题，而连续字段则在试图中显示为轴：</p>
-<h4 id="工作流程："><a href="#工作流程：" class="headerlink" title="工作流程："></a><strong>工作流程：</strong></h4><p><img src="https://lh3.googleusercontent.com/--AeSpD2dk6I/W9QgYkhYDxI/AAAAAAAAADk/BtAHXJMbFPk0xswXto5hPuWCPhFhhpvqwCHMYCw/I/15406285752387.jpg" alt=""></p>
-<ul>
-<li><p>连接数据：</p>
-<ul>
-<li>file type: excel，text，json，access，pdf，statistical file等</li>
-<li>database type：oracle，mysql，Tableau server等</li>
-</ul>
-</li>
-<li>构建数据视图：<br>连接到数据源后，您将获得Tableau环境中可用的所有列和数据。您可以将它们分为维，度量和创建任何所需的层次结构。使用这些，您构建的视图传统上称为报告。 Tableau提供了轻松的拖放功能来构建视图。</li>
-<li><p>增强视图<br>上面创建的视图需要进一步增强使用过滤器，聚合，轴标签，颜色和边框的格式。</p>
-</li>
-<li><p>创建工作表<br>我们创建不同的工作表，以便对相同的数据或不同的数据创建不同的视图。</p>
-</li>
-<li><p>创建和组织仪表板<br>仪表板包含多个链接它的工作表。因此，任何工作表中的操作都可以相应地更改仪表板中的结果。</p>
-</li>
-<li><p>创建故事<br>故事是一个工作表，其中包含一系列工作表或仪表板，它们一起工作以传达信息。您可以创建故事以显示事实如何连接，提供上下文，演示决策如何与结果相关，或者只是做出有说服力的案例。</p>
-</li>
-</ul>
-<p><strong>支持的数据类型：</strong></p>
-<ul>
-<li>STRING：    任何零个或多个字符的序列。 它们用单引号括起来。 引号本身可以通过写两次来包含在字符串中。\’Hello\’<br>\’Quoted\’\’quote\’</li>
-<li>NUMBER    这些是整数或浮点数。 建议在计算中使用浮点数的四舍五入。</li>
-<li>BOOLEAN    它们是逻辑值：TRUE，FALSE</li>
-<li>DATE &amp; DATETIME    Tableau以几乎所有格式识别日期。 但是，如果我们需要强制tableau将字符串识别为日期，那么我们在数据之前放一个＃符号。<pre><code>“02/01/2015&quot;
-    “＃3 March 1982&quot;
-</code></pre></li>
-</ul>
-<h4 id="数据源常见操作"><a href="#数据源常见操作" class="headerlink" title="数据源常见操作"></a>数据源常见操作</h4><ul>
-<li>数据连接：left，right，inner，full outer</li>
-<li>数据混合：在多个数据源中有要在单个视图中一起分析的相关数据时使用,数据混合中涉及的两个来源称为主数据源和辅助数据源。将在主数据源和辅助数据源之间创建左连接，其中所有数据行都来自辅助数据源的主数据行和匹配数据行。</li>
-</ul>
-<h4 id="tableau运算"><a href="#tableau运算" class="headerlink" title="tableau运算"></a>tableau运算</h4><p><strong>运算符类型</strong><br>Tableau有多个运算符用于创建计算字段和公式。</p>
-<ul>
-<li>常规运算符</li>
-<li>算术运算符</li>
-<li>比较运算符</li>
-<li>逻辑运算符: AND,OR,NOT<br><strong>函数</strong></li>
-<li>数字函数：CEILING(2.145)= 3，POWER(5,3)= 125，ROUND(3.14152,2)= 3.14</li>
-<li>字符串函数：LEN(“Tableau”)= 7，LTRIM(“Tableau”)=“Tableau”（删除前面的空格），REPLACE(“GreenBlueGreen”，“Blue”，“Red”)=“GreenRedGreen”，UPPER(“Tableau”)=“TABLEAU”</li>
-<li>日期函数：IFNULL([Sales]，0)= [Sales]，ISDATE(“11/05/98”)= TRUE ，MIN()</li>
-<li>逻辑函数:</li>
-<li>聚合函数: AVG(expression),COUNT(expression),MEDIAN(expression),STDEV(expression)(返回基于样本总体的给定表达式中所有值的统计标准偏差。)<br><strong>表计算</strong><br>这些是应用于整个表中的值的计算。例如，为了计算运行总计或运行平均值，我们需要对整个列应用单个计算方法。无法对某些选定的行执行此类计算。</li>
-<li><p>步骤1<br>选择要应用表计算的度量，并将其拖动到列架。</p>
-</li>
-<li><p>第2步<br>右键单击度量，然后选择快速表计算选项。</p>
-</li>
-<li><p>步骤-3<br>选择要应用于度量的以下选项之一。</p>
-<ul>
-<li>Running Total</li>
-<li>Difference</li>
-<li>Percent Difference</li>
-<li>Percent of Total</li>
-<li>Rank</li>
-<li>Percentile</li>
-<li>Moving Average</li>
-<li>Year to Date (YTD) Total</li>
-<li>Compound Growth Rate</li>
-<li>Year over Year Growth</li>
-<li>Year to Date (YTD) Growth</li>
-</ul>
-</li>
-</ul>
-<p><strong>LOD表达式</strong><br>LOD（level of detail）表达式有三种主要类型。</p>
-<ul>
-<li>FIXED LOD 此表达式使用指定的维度计算值，而不引用视图中的任何其他维度。</li>
-<li>INCLUDE LOD 此级别的详细信息表达式使用指定的维度以及视图中的任何维度来计算值。</li>
-<li>EXCLUDE LOD 这些级别的细节表达式从视图细节级别中减去维度。</li>
-</ul>
-<p><strong>过滤器</strong><br>过滤是从结果集中删除某些值或值范围的过程。</p>
-<ul>
-<li>基本过滤器<ul>
-<li>过滤器维度是应用于维度字段的过滤器。</li>
-<li>过滤器度量是应用于度量字段的过滤器。</li>
-<li>过滤器日期是应用于日期字段的过滤器。</li>
-</ul>
-</li>
-<li>快速过滤器：<br>Tableau中的许多过滤器类型可以使用对维或度量的右键单击选项快速可用。 这些称为快速过滤器的过滤器具有足够的功能，可以解决大多数常见的过滤需求。</li>
-<li>上下文过滤器：第二个过滤器只处理第一个过滤器返回的记录。因此，在这种情况下，第二个过滤器称为依赖过滤器，因为它们只处理通过上下文过滤器的数据。上下文过滤器有两个主要目的。<ul>
-<li>提高性能 - 如果设置了大量过滤器或具有大型数据源，查询可能会很慢。您可以设置一个或多个上下文过滤器以提高性能。</li>
-<li>创建从属数字或前N个过滤器 - 您可以设置上下文过滤器以仅包括感兴趣的数据，然后设置数字或前N个过滤器。</li>
-</ul>
-</li>
-<li>创建过滤器：<ul>
-<li>通用过滤器，允许从列表中选择特定值。</li>
-<li>通配符过滤器允许提到通配符像cha *过滤所有以cha开头的字符串值。</li>
-<li>条件过滤器，我用来应用条件，如销售额。</li>
-<li>顶部过滤器选择代表Top值范围的记录。</li>
-</ul>
-</li>
-</ul>
-<h4 id="tableau图表："><a href="#tableau图表：" class="headerlink" title="tableau图表："></a>tableau图表：</h4><p><img src="https://lh3.googleusercontent.com/rZnaNO64xY50pFLZLVDhv7IV_1KoXq932uYhloyQa7whJvDejG_Ig7uJzx3MVlBziGA7Bc-n14uzgs5P5bWtYa8LDFAfGNOQCWTdUgNCQwtvLLrJRrgigE07sMEwvBv4QQjN6m2utHO2ENwgOyKI0I-DPM0YoL3YhrrsEgDt0gPz5HFGEG5cpYdq06rFdfRIpipuaULTMULNROh7RK400ss32ANjSTL-yzEauIEuOU-ISZiL_0v7UZL-Dzm9ssAUMwn9e34CvstL-um7LP_tt6vFao0rUlBvr1ediH4sHoG5A6lvdUcMd_ngiklpCn5Yu95hEw9IBsUP9Abd4ETvGAPP4d0WKbnAjdiGx-d_4Ej3TUUtMWCVtLhSyXOBKY1TAOHHN_qOgH4tNHe0ocxFjy6hP-Yp_JkqGMN8vVV_0b03a7tgCrch0eqGGgfPB9Gvb89ntXmHwAni2RRNauqrDX32VqpagRbvoGhzVOe7lsEkt06GIUjUJyOwiINXVjBELw7PZRuI15OkOEvA-W_JRY5AaXfh2Fhh8nJ5WXc4-EnwWY5Gdiv23P-uaM7ywUPMloNcBLhyPodj1VYqLovG73xyxuIiObnSGXNgZws1hinlXWkCMJtSIROISa6RIRxSg-Ls_G-QmSHC9QyniEjOvwY=w800-h716-no" alt=""></p>
-<ul>
-<li>柱状图：它的适用场合是二维数据集（每个数据点包括两个值x和y），但只有一个维度需要比较。</li>
-<li>折线图（Line Chart）数据：折线图适合二维的大数据集，尤其是那些趋势比单个数据点更重要的场合。</li>
-<li>饼图（Pie Chart）：饼图是一种应该避免使用的图表，因为肉眼对面积大小不敏感。</li>
-<li>散点图：适用于三维数据集，但其中只有两维需要比较。</li>
-<li>气泡图：是散点图的一种变体，通过每个点的面积大小，反映第三维。如果为气泡加上不同颜色（或文字标签），气泡图就可用来表达四维数据。比如下图就是通过颜色，表示每个点的风力等级。</li>
-<li>雷达图：适用于多维数据（四维以上），且每个维度必须可以排序（国籍就不可以排序）。但是，它有一个局限，就是数据点最多6个，否则无法辨别，因此适用场合有限。</li>
-</ul>
-<h4 id="参考网站："><a href="#参考网站：" class="headerlink" title="参考网站："></a>参考网站：</h4><ul>
-<li><p>蓝鲸的网站分析笔记：<a href="http://bluewhale.cc" target="_blank" rel="noopener">http://bluewhale.cc</a></p>
-</li>
-<li><p>网站分析在中国：<a href="http://www.chinawebanalytics.cn" target="_blank" rel="noopener">http://www.chinawebanalytics.cn</a></p>
-</li>
-<li>英文教程：<a href="https://www.guru99.com/tableau-charts-graphs-tutorial.html" target="_blank" rel="noopener">https://www.guru99.com/tableau-charts-graphs-tutorial.html</a></li>
-<li>中文教程：<a href="https://www.w3cschool.cn/tableau/tableau_bar_chart.html" target="_blank" rel="noopener">https://www.w3cschool.cn/tableau/tableau_bar_chart.html</a></li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://mobyIsMe.github.io/2018/09/27/Tableau基本概念/" data-id="cjnrbw89j0001qur0lzv56jkm" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
   
 </article>
-
-
-  
 
 </section>
         

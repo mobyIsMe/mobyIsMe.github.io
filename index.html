@@ -101,7 +101,92 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mobyIsMe.github.io/2018/10/16/hello-world/" data-id="cjnrbxvkf0001ttr03gn0v38s" class="article-share-link">Share</a>
+      <a data-url="http://mobyIsMe.github.io/2018/10/16/hello-world/" data-id="cjnrdzlyq0000bqr07hv4lsyi" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-movielens" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/01/movielens/" class="article-date">
+  <time datetime="2018-10-01T11:02:57.000Z" itemprop="datePublished">2018-10-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/01/movielens/">movielens</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>两种最普遍的推荐系统的类型是<strong>基于内容</strong>和<strong>协同过滤（CF</strong>）。协同过滤基于用户对产品的态度产生推荐，也就是说，它使用“人群的智慧”来推荐产品。与此相反，基于内容的推荐系统集中于物品的属性，并基于它们之间的相似性为你推荐。一般情况下，协作过滤（CF）是推荐引擎的主力。该算法具有能够自身进行特征学习的一个非常有趣的特性，这意味着它可以开始学习使用哪些特性。<strong>CF可以分为基于内存的协同过滤和基于模型的协同过滤。</strong>在本教程中，你将使用奇异值分解（SVD）实现基于模型的CF和通过计算余弦相似实现基于内存的CF。</p>
+<p>当你有一个非常稀疏的多维矩阵时，通过进行矩阵分解可以调整用户-产品矩阵为低等级的结构，然后你可以通过两个低秩矩阵（其中，每行包含该本征矢量）的乘积来代表该矩阵。你通过将低秩矩阵相乘，在原始矩阵填补缺少项，以调整这个矩阵，从而尽可能的近似原始矩阵。</p>
+<p>基于模型的协同过滤是基于矩阵分解（MF），主要使用SVD来分解矩阵，它已获得更大的曝光，它主要是作为潜变量分解和降维的一个无监督学习方法。矩阵分解广泛用于推荐系统，其中，它比基于内存的CF可以更好地处理与扩展性和稀疏性. MF的目标是从已知的评分中学习用户的潜在喜好和产品的潜在属性（学习描述评分特征的特征），随后通过用户和产品的潜在特征的点积预测未知的评分。如果只有少数可用的数据，那么基于模型的CF模式将预测不良，因为这将更难以学习潜在特征。</p>
+<p>基于内存的CF的缺点是，它不能扩展到真实世界的场景，并且没有解决众所周知的冷启动问题，也就是当新用户或新产品进入系统时。基于模型的CF方法是可扩展的，并且可以比基于内存的模型处理更高的稀疏度，但当没有任何评分的用户或产品进入系统时，也是苦不堪言的。</p>
+<p>同时使用评分和内容特性的模型称为混合推荐系统，其中，协同过滤和基于内容的模型相结合。混合推荐系统通常比协同过滤或基于内容的模型自身表现出更高的精度：它们有能力更好的解决冷启动问题，因为如果你没有一个用户或者一个产品的评分，那么你可以使用该用户或产品的元数据进行预测。混合推荐系统将在未来的教程中介绍。</p>
+<p>推荐系统的重要算法是协同过滤，movielens是很成熟的开源数据库，自己在这个数据库上分别使用了user-cf和item-cf分别进行尝试，并在多个评价维度指标上进行对比。</p>
+<h4 id="推荐理论"><a href="#推荐理论" class="headerlink" title="推荐理论:"></a>推荐理论:</h4><p>分为两个步骤，第一：找到目标之间的相似性  第二：根据相似性去推荐<br>推荐最基本的方法就是基于邻域的算法——协同过滤，Collaborative Filtering，CF(还有隐语义模型，基于图的模型)</p>
+<ul>
+<li><p>user-based: 对用户A进行推荐 ，按照上面两个步骤就是，</p>
+<pre><code>找到和目标用户兴趣相似的用户集合。
+找到这个集合中的用户喜欢的，且目标用户没有听说过的物品推荐给目标用户。
+</code></pre><ul>
+<li><p>兴趣相似度计算：<br>这里最关键的就是计算用户的兴趣相似度： 主要利用行为相似度来计算兴趣相似度，3种方法：</p>
+<ul>
+<li>jaccard公式：</li>
+<li>余弦公式：</li>
+<li>皮尔逊公式：  将余弦公式的每个变量均值化就是皮尔森公式<br>皮尔森相关系数公式对变量进行了均值化（或去中心化）处理，其好处是减少变量个体的数值差异对变量间相似度的影响。举个例子，用户A习惯对所有物品的评分范围为[1,3]，而用户B习惯对所有物品的评分范围为[3,5]，因各自评分数值标准的差异，采用余弦夹角公式计算两者的相似度比较低，但实际上两者的相似度是很高的。因此，在实际的推荐系统中，大都采用皮尔森相关系数公式</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>item-based:例如推荐电影，推荐音乐：给用户推荐那些和他们之前喜欢的物品相似的物品.网站上（购买了该商品的用户也经常购买的其他商品) </p>
+<ul>
+<li>同样的也分为两步：<br>(1) 计算物品之间的相似度。<br>(2) 根据物品的相似度和用户的历史行为给用户生成推荐列表。 </li>
+<li>优点：可以提供推荐理由解释，利用用户历史兴趣做推荐。</li>
+</ul>
+</li>
+<li><p>usercf vs itemcf:<br><img src="https://lh3.googleusercontent.com/jtsuZKWBS0uTDzjRrU6ut78wmBV52SQp0VIelYFRKjpSl8m0VjlLmv7txlOW51yFg8knI-Swx9t41g6a8eBBhz1vRN30T7LDx5I7MYC7KoYdbb7eCRgr1LXeKL4rElCa5GBGm1HQTp_LX7vSNxi4Oug_tAUWyQTvM5Ct8MYXpKTOZEMoWEWljyRy9UdeQNzGN6GWLmLxaj0sDhPZvfpCjN4vd0MtzfSSnlzfD85tUqcNYar8ypZPUi-ubnManllHgiGddg29-2xa5SUS40pWivV4E2bApB1uC-GprS87JhD9lWfEq54Fhx3-zffTiwc_EzW6tgDhC2WdT_RTGhdhLL_9ERq3zFutqyDOEw3EdOm4Qlank_1nE05BwU0csYd88Rs1Bw_hPwdzYI4-AMH6TIYiXoV9T7vY1suGz9d3EZ85ShQC62jykASCKO2pJEg-k3-URZXkiDc2_p3gWJrhzZdfMZw45N1bQO7Mny5PWeThsUGI_r5F43DB3OeipVNgHpStfkpxAFX29Q6m-AL8A-n-91r1IQNeCM7YKWtG-NdU7ZB5M1qACgA12RuzQcTGEaM2oncxY_W09RIgxYjK6Bcuc_NDHiaaqezMBEO4fTjx5Sju9zBwWEBVqUCiMUtriYK_UkNSO4H0-0trJXHBOA8=w1308-h632-no" alt=""></p>
+</li>
+</ul>
+<h4 id="MovieLens数据集"><a href="#MovieLens数据集" class="headerlink" title="MovieLens数据集"></a>MovieLens数据集</h4><p>用户对电影的评分。这个数据集有不同的版本，不同版本用户数和评分数都不一样，我采用了的100k这个数据集，该数据集记录了943个用户对1682部电影的共100,000个评分，每个用户至少对20部电影进行了评分。<br>文件u.item保存了item的信息，也就是电影的信息，共1682部电影，其id依次是1、2、……、1682。文件中每一行保存了一部电影的信息，格式如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">movie id | movie title | release date | video release date |</span><br><span class="line">IMDb URL | unknown | Action | Adventure | Animation |</span><br><span class="line">Children&apos;s | Comedy | Crime | Documentary | Drama | Fantasy |</span><br><span class="line">Film-Noir | Horror | Musical | Mystery | Romance | Sci-Fi |</span><br><span class="line">Thriller | War | Western |</span><br></pre></td></tr></table></figure>
+<p>注意，最后19个字段保存的是该电影的类型，一个字段对应一个类型，值为0代表不属于该类型，值为1代表属于该类型，类型信息保存在文件u.genre中。</p>
+<p>文件u.user保存了用户的信息，共有943个用户，其id依次是1、2、……、943。文件中每一行保存了一个用户的信息，格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user id | age | gender | occupation | zip code</span><br></pre></td></tr></table></figure>
+<p>文件u.occupation保存了用户职业的集合。<br>下面介绍数据集的主要文件。</p>
+<p>文件u.data保存了所有的评分记录，每一行是一个用户对一部电影的评分，共有100000条记录。当然，如果某用户没有对某电影评分，则不会包含在该文件中。评分的分值在1到5之间，就是1、2、3、5这5个评分。每一行格式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user id | item id | rating | timestamp</span><br></pre></td></tr></table></figure>
+<p>其中，item id就是电影的id，时间戳timestamp是评分时间。</p>
+<p>实验设计：协同过滤算法的离线实验一般如下设计。首先，将用户行为数据集按照均匀分布随机分成M 份(本章取M=8)，挑选一份作为测试集，将剩下的M-1份作为训练集。然后在训练集上建立用户 兴趣模型，并在测试集上对用户行为进行预测，统计出相应的评测指标。为了保证评测指标并不是过拟合的结果，需要进行M次实验，并且每次都使用不同的测试集。然后将M次实验测出的评 测指标的平均值作为最终的评测指标。 这样做主要是防止某次实验的结果是过拟合的结果(over fitting)，但如果数据集够大，模型 够简单，为了快速通过离线实验初步地选择算法，也可以只进行一次实验。 </p>
+<h4 id="算法实现"><a href="#算法实现" class="headerlink" title="算法实现:"></a>算法实现:</h4><h5 id="user-cf部分"><a href="#user-cf部分" class="headerlink" title="user-cf部分:"></a>user-cf部分:</h5><p>计算两个用户的兴趣相似度，这里我们可以用余弦相似度来计算，即相似度 = 用户u和用户v共同评价过的电影数 / √(用户u评价的电影数 * 用户v评价的电影数)。由于对两两用户计算余弦相似度非常耗时，所以我们可以先计算这个公式的分子，如果分子为0，即用户u和用户v没有共同评价过的电影，则无需计算余弦相似度。为此我们可以建立电影到用户的倒排表，对于每部电影都保存对评价过该电影的用户列表，然后用稀疏矩阵usersim_mat表示用户u和用户v共同评价过的电影，这样子，扫描一遍倒排表并将同一物品下的两两用户对应的矩阵值加1，就可以通过稀疏矩阵中值为0的点知道哪些用户没有共同评价的电影了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">def calc_user_sim(self):</span><br><span class="line">	# 构建物品-用户倒排表</span><br><span class="line">	movie2users = dict()</span><br><span class="line">	for user, movies in self.trainset.items():</span><br><span class="line">		for movie in movies:</span><br><span class="line">			if movie not in movie2users:</span><br><span class="line">				movie2users[movie] = set()</span><br><span class="line">			movie2users[movie].add(user)</span><br><span class="line">			if movie not in self.movie_popular:</span><br><span class="line">				self.movie_popular[movie] = 0</span><br><span class="line">			self.movie_popular[movie] += 1</span><br><span class="line"></span><br><span class="line">	# 计算两两用户之前的共同评价电影数</span><br><span class="line">	usersim_mat = self.user_sim_mat</span><br><span class="line">	for movie, users in movie2users.items():</span><br><span class="line">		for u in users:</span><br><span class="line">			for v in users:</span><br><span class="line">				if u == v:</span><br><span class="line">					continue</span><br><span class="line">				usersim_mat.setdefault(u, &#123;&#125;)</span><br><span class="line">				usersim_mat[u].setdefault(v, 0)</span><br><span class="line">				usersim_mat[u][v] += 1</span><br><span class="line"></span><br><span class="line">	# 计算用户兴趣相似度</span><br><span class="line">	for u, related_users in usersim_mat.items():</span><br><span class="line">		for v, count in related_users.items():</span><br><span class="line">			usersim_mat[u][v] = count / math.sqrt(len(self.trainset[u]) * len(self.trainset[v]))</span><br></pre></td></tr></table></figure>
+<p>得到用户之间的兴趣相似度后，我们就可以用UserCF算法给用户推荐和他兴趣最相似的K个用户的电影了，这里我们直接用K个用户中看过某电影的用户群的兴趣相似度之和来表示被推荐用户对某部电影的感兴趣程度，具体的推荐函数实现如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">def recommend(self, user):</span><br><span class="line">	K = self.n_sim_user</span><br><span class="line">	N = self.n_rec_movie</span><br><span class="line">	rank = dict()</span><br><span class="line">	watched_movies = self.trainset[user]</span><br><span class="line"></span><br><span class="line">	for similar_user, similarity_factor in sorted(self.user_sim_mat[user].items(),</span><br><span class="line">                                                  key=itemgetter(1), reverse=True)[0:K]:</span><br><span class="line">		for movie in self.trainset[similar_user]:</span><br><span class="line">			if movie in watched_movies:</span><br><span class="line">				continue</span><br><span class="line">			# 预测该用户对每部电影的兴趣</span><br><span class="line">			rank.setdefault(movie, 0)</span><br><span class="line">			rank[movie] += similarity_factor</span><br><span class="line">	# 返回评分最高的N部电影</span><br><span class="line">	return sorted(rank.items(), key=itemgetter(1), reverse=True)[0:N]</span><br></pre></td></tr></table></figure>
+<h5 id="item-cf部分"><a href="#item-cf部分" class="headerlink" title="item-cf部分:"></a>item-cf部分:</h5><p>计算电影之间相似度的方法与上面计算用户之间相似度的方法类似，即相似度 = 评价过电影i和电影j的用户数 / √(评价过电影i的用户数 * 评价过电影j的用户数)，同样可以通过建立用户-物品倒排表来减少计算量，具体的实现代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">def calc_movie_sim(self):</span><br><span class="line">	for user, movies in self.trainset.items():</span><br><span class="line">		for movie in movies:</span><br><span class="line">			# 计算每部电影评价的用户数</span><br><span class="line">			if movie not in self.movie_popular:</span><br><span class="line">				self.movie_popular[movie] = 0</span><br><span class="line">			self.movie_popular[movie] += 1</span><br><span class="line"></span><br><span class="line">	# 计算两两电影的共同评价用户数</span><br><span class="line">	itemsim_mat = self.movie_sim_mat</span><br><span class="line">	for user, movies in self.trainset.items():</span><br><span class="line">		for m1 in movies:</span><br><span class="line">			for m2 in movies:</span><br><span class="line">				if m1 == m2:</span><br><span class="line">					continue</span><br><span class="line">				itemsim_mat.setdefault(m1, &#123;&#125;)</span><br><span class="line">				itemsim_mat[m1].setdefault(m2, 0)</span><br><span class="line">				itemsim_mat[m1][m2] += 1</span><br><span class="line"></span><br><span class="line">	# 计算相似矩阵</span><br><span class="line">    for m1, related_movies in itemsim_mat.items():</span><br><span class="line">        for m2, count in related_movies.items():</span><br><span class="line">            itemsim_mat[m1][m2] = count / math.sqrt(</span><br><span class="line">                self.movie_popular[m1] * self.movie_popular[m2])</span><br></pre></td></tr></table></figure>
+<p>找出与某用户看过的某部电影 i 相似度最大的K部电影<br>遍历这K部电影，如果该用户看过则跳过，否则则尝试将其加入候选推荐电影列表，如果已在列表中，则在原来的基础上将推荐指数加上相似度与电影 i 评分的乘积，否则则加入列表并将初始推荐指数设为相似度与电影 i 评分的乘积<br>遍历该用户看过的所有电影，最后可以得到一个推荐列表，返回此列表中推荐指数最高的N部电影</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">def recommend(self, user):</span><br><span class="line">	K = self.n_sim_movie</span><br><span class="line">	N = self.n_rec_movie</span><br><span class="line">	rank = &#123;&#125;</span><br><span class="line">	watched_movies = self.trainset[user]</span><br><span class="line">	for movie, rating in watched_movies.items():</span><br><span class="line">	for related_movie, similarity_factor in sorted(self.movie_sim_mat[movie].items(),</span><br><span class="line">                                                   key=itemgetter(1), reverse=True)[:K]:</span><br><span class="line">		if related_movie in watched_movies:</span><br><span class="line">			continue</span><br><span class="line">		rank.setdefault(related_movie, 0)</span><br><span class="line">		rank[related_movie] += similarity_factor * rating</span><br><span class="line">	# 返回N部推荐的电影</span><br><span class="line">	return sorted(rank.items(), key=itemgetter(1), reverse=True)[:N]</span><br></pre></td></tr></table></figure>
+<h4 id="结果评价"><a href="#结果评价" class="headerlink" title="结果评价"></a>结果评价</h4><p>item-cf：<br><img src="https://lh3.googleusercontent.com/DpW1X6KD-Y_xV8oQIAxflDqJ8OhM_d4Z_wPCKmD4IWjTAFgvfm_mhnGyDl4Dyro_R_pqmWhW-ThSQkCH8VJT5ek1C67QXwYfkTHUj3UzguoAgjvU_ZmgHrCe3ye-k_cPHgR9vICd1_BVpKlmtIvZXiwwTj6vr5RD9QU9zd_ypTxm_EkXHq7abDYRcrNoKe-TTfwElaSvXa_pR8XIJw16h_MGtM2xw2PGWXHFHKGD4JlHyjNzhPlbsVKfZh0qDzTlvvxkqwds_rRQC_E5CHKlUXkKwt6Ld2pK-ERj0ccj2foQCyDLAe_eEsXnaq4rjgUHTBMypaB6AXpi3AEV-08JLi3yvIiVvNe8SeSiGu-2v3rATSCEDKGANPd4_W3dunONpswaNvhZQXM6dw0eOgI-xlgZ6tG_N7DLcHjUhxQNKNIn6i6kM1nEvcJ3giDvMxo9ItYvDm9wRxJcfWHfRpH7UMgbPMWCB75ozbF2hjqwE1nhuJtgSoOxfpnjosEBYwjDo9oPWsIu3lcwBWBnxgo0LPTp_Kp53AFqylBQ0IwRpeXG5UAnSWQRCW5AreBvhI0xI2wXjlZbHA6UaG3ZCuKO6fsy-NmxvH7SpG64gjk9UnM9IJT6EmBq1ab2M-rrL1AafNgG0LMnyzOBWQcbdEFactU=w671-h148-no" alt=""><br>user-cf:<br><img src="https://lh3.googleusercontent.com/V8EVNorI7dzf9WNNB1l6SCWkFdtgVx3amPTT0eNdvlnwav81OClm4vtdlU9lJvVznrOyXUA1xrVPILXNzCz4cNZqBdyhwwe7AISQ3nhXF1yc-FOu6btWYguMfqACB8NLhGOPnOLSDwGy4nzei0hOhCod_8FXeoD2JyhjjE1ahdzb7ioq8rjifLVIMKPO3fopewq8Zzk7B4EuM0qwp1ZIoUuHAkk0_vfz1ZRRswdyJv2OZ-1YuQuhjvwXdet-SjiRn_cZVg-5qf_VhS_zUMk4TpcZyScqkiIp5cclfSfObpRztWTgagUc_ACA3gzAoScMf7MbOpNPdMcC8sDSzmNXV961Y6xbeKAk2Sq-nVrm_a7BriiabngyCMjnW2lJBuVLiAAzk0zhJHDRUVlVWx7jStAQ5p15PH47wocXaxM4wmURaFhwVVjmLJ0_R4cRq6D6B8wNE5Zy8AKAW4YMjYTSpHA_VlnZQrKaDCcqyEq29D9wJCErRakKYIXtx5B_QnTggLBgxEaB0Jad_kxQJkXvN2nLwkZfEx6VU_GP9bIG2onaXOL2RXcHcsUJnmTAlg6Ns6jNbKbrrmDxnUG3b4QorZUfL_uF8BXCbQi25MbhAGw4i9xNn1x8_yPBKWnJ52jeJBrPbJUhnq0lsOzpnfUDNrw=w670-h148-no" alt=""></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://mobyIsMe.github.io/2018/10/01/movielens/" data-id="cjnrdzlz10002bqr0d13fwa4a" class="article-share-link">Share</a>
       
       
     </footer>
@@ -150,7 +235,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mobyIsMe.github.io/2018/09/30/tableau实践/" data-id="cjnrbxvkb0000ttr0pvl0z2h9" class="article-share-link">Share</a>
+      <a data-url="http://mobyIsMe.github.io/2018/09/30/tableau实践/" data-id="cjnrdzlyy0001bqr0wblhxwlk" class="article-share-link">Share</a>
       
       
     </footer>
@@ -299,7 +384,7 @@ WechatIMG221"></p>
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mobyIsMe.github.io/2018/09/27/Tableau基本概念/" data-id="cjnrbxvki0002ttr0wbv0lk8l" class="article-share-link">Share</a>
+      <a data-url="http://mobyIsMe.github.io/2018/09/27/Tableau基本概念/" data-id="cjnrdzlz20003bqr0lsutpfxt" class="article-share-link">Share</a>
       
       
     </footer>
@@ -340,6 +425,10 @@ WechatIMG221"></p>
         
           <li>
             <a href="/2018/10/16/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/01/movielens/">movielens</a>
           </li>
         
           <li>

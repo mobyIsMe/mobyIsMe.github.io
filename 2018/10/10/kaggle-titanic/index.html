@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>kaggle-titanic | Moby Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="kaggle上一些数据处理的经验：   『对数据的认识太重要了！』『数据中的特殊点/离群点的分析和处理太重要了！』『特征工程(feature engineering)太重要了！在很多Kaggle的场景下，甚至比model本身还要重要』『要做模型融合(model ensemble)啊啊啊！』 工作流程 问题定义Question or problem definition. 获取训练和测试数据Acqu">
+<meta property="og:type" content="article">
+<meta property="og:title" content="kaggle-titanic">
+<meta property="og:url" content="http://mobyIsMe.github.io/2018/10/10/kaggle-titanic/index.html">
+<meta property="og:site_name" content="Moby Blog">
+<meta property="og:description" content="kaggle上一些数据处理的经验：   『对数据的认识太重要了！』『数据中的特殊点/离群点的分析和处理太重要了！』『特征工程(feature engineering)太重要了！在很多Kaggle的场景下，甚至比model本身还要重要』『要做模型融合(model ensemble)啊啊啊！』 工作流程 问题定义Question or problem definition. 获取训练和测试数据Acqu">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="http://phal1xgub.bkt.clouddn.com/18-10-28/13834077.jpg">
+<meta property="og:image" content="http://phal1xgub.bkt.clouddn.com/18-10-28/43441627.jpg">
+<meta property="og:image" content="http://phal1xgub.bkt.clouddn.com/18-10-28/87098057.jpg">
+<meta property="og:image" content="http://phal1xgub.bkt.clouddn.com/18-10-28/2753343.jpg">
+<meta property="og:image" content="http://phal1xgub.bkt.clouddn.com/18-10-28/70004910.jpg">
+<meta property="og:image" content="http://phal1xgub.bkt.clouddn.com/18-10-28/50833042.jpg">
+<meta property="og:image" content="http://phal1xgub.bkt.clouddn.com/18-10-28/72825576.jpg">
+<meta property="og:image" content="http://phal1xgub.bkt.clouddn.com/18-10-28/77836464.jpg">
+<meta property="og:image" content="http://phal1xgub.bkt.clouddn.com/18-10-28/52884143.jpg">
+<meta property="og:image" content="http://phal1xgub.bkt.clouddn.com/18-10-28/99259876.jpg">
+<meta property="og:image" content="http://phal1xgub.bkt.clouddn.com/18-10-28/80562408.jpg">
+<meta property="og:image" content="http://phal1xgub.bkt.clouddn.com/18-10-28/53710620.jpg">
+<meta property="og:image" content="http://phal1xgub.bkt.clouddn.com/18-10-28/19597981.jpg">
+<meta property="og:image" content="http://phal1xgub.bkt.clouddn.com/18-10-28/31857525.jpg">
+<meta property="og:image" content="http://phal1xgub.bkt.clouddn.com/18-10-28/48879195.jpg">
+<meta property="og:image" content="http://phal1xgub.bkt.clouddn.com/18-10-28/23344260.jpg">
+<meta property="og:image" content="http://phal1xgub.bkt.clouddn.com/18-10-28/42686935.jpg">
+<meta property="og:image" content="http://phal1xgub.bkt.clouddn.com/18-10-28/64383745.jpg">
+<meta property="og:image" content="http://phal1xgub.bkt.clouddn.com/18-10-28/74720666.jpg">
+<meta property="og:image" content="http://phal1xgub.bkt.clouddn.com/18-10-28/71290880.jpg">
+<meta property="og:image" content="http://phal1xgub.bkt.clouddn.com/18-10-28/79209102.jpg">
+<meta property="og:image" content="http://phal1xgub.bkt.clouddn.com/18-10-28/45867680.jpg">
+<meta property="og:image" content="http://phal1xgub.bkt.clouddn.com/18-10-28/81603825.jpg">
+<meta property="og:image" content="http://phal1xgub.bkt.clouddn.com/18-10-28/89611435.jpg">
+<meta property="og:image" content="http://phal1xgub.bkt.clouddn.com/18-10-28/86373785.jpg">
+<meta property="og:updated_time" content="2018-10-28T14:56:50.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="kaggle-titanic">
+<meta name="twitter:description" content="kaggle上一些数据处理的经验：   『对数据的认识太重要了！』『数据中的特殊点/离群点的分析和处理太重要了！』『特征工程(feature engineering)太重要了！在很多Kaggle的场景下，甚至比model本身还要重要』『要做模型融合(model ensemble)啊啊啊！』 工作流程 问题定义Question or problem definition. 获取训练和测试数据Acqu">
+<meta name="twitter:image" content="http://phal1xgub.bkt.clouddn.com/18-10-28/13834077.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Moby Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Moby Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">T_blog</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://mobyIsMe.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-kaggle-titanic" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/10/10/kaggle-titanic/" class="article-date">
+  <time datetime="2018-10-10T08:44:43.000Z" itemprop="datePublished">2018-10-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      kaggle-titanic
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>kaggle上一些数据处理的经验：</p>
+<blockquote>
+</blockquote>
+<p>『对数据的认识太重要了！』<br>『数据中的特殊点/离群点的分析和处理太重要了！』<br>『特征工程(feature engineering)太重要了！在很多Kaggle的场景下，甚至比model本身还要重要』<br>『要做模型融合(model ensemble)啊啊啊！』</p>
+<h5 id="工作流程"><a href="#工作流程" class="headerlink" title="工作流程"></a>工作流程</h5><ol>
+<li>问题定义Question or problem definition.</li>
+<li>获取训练和测试数据Acquire training and testing data.</li>
+<li>数据准备和清洗Wrangle, prepare, cleanse the data.</li>
+<li>分析，识别数据模型，探索数据Analyze, identify patterns, and explore the data.</li>
+<li>建模，预测，解决问题Model, predict and solve the problem.</li>
+<li>可视化，报表，展示解决步骤和最终解决方案Visualize, report, and present the problem solving steps and final solution.</li>
+<li>提交结果Supply or submit the results.</li>
+</ol>
+<h5 id="特征工程"><a href="#特征工程" class="headerlink" title="特征工程"></a>特征工程</h5><ul>
+<li>Classifying：样本分类或分级</li>
+<li>Correlating：样本预测结果和特征的关联程度，特征之间的关联程度</li>
+<li>Converting：特征转换（向量化）</li>
+<li>Completing：特征缺失值预估完善</li>
+<li>Correcting：对于明显离群或会造成预测结果明显倾斜的异常数据，进行修正或排除</li>
+<li>Creating：根据现有特征衍生新的特征，以满足关联性、向量化以及完整度等目标上的要求</li>
+<li>Charting：根据数据性质和问题目标选择正确的可视化图表</li>
+</ul>
+<h5 id="初始数据"><a href="#初始数据" class="headerlink" title="初始数据"></a>初始数据</h5><p>在Data下有train.csv和test.csv两个文件，分别存着官方给的训练和测试数据。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import pandas as pd #数据分析</span><br><span class="line">import numpy as np #科学计算</span><br><span class="line">from pandas import Series,DataFrame</span><br><span class="line"></span><br><span class="line">data_train = pd.read_csv(&quot;/Users/Hanxiaoyang/Titanic_data/Train.csv&quot;)</span><br><span class="line">data_train.head()</span><br></pre></td></tr></table></figure>
+<p><img src="http://phal1xgub.bkt.clouddn.com/18-10-28/13834077.jpg" alt=""></p>
+<p>总共有12列，其中Survived字段表示的是该乘客是否获救，其余都是乘客的个人信息，包括：</p>
+<blockquote>
+</blockquote>
+<p>PassengerId: 乘客ID<br>Pclass ： 乘客等级(1/2/3等舱位)<br>Name ：乘客姓名<br>Sex ：性别<br>Age ：年龄<br>SibSp ：堂兄弟/妹个数<br>Parch ：父母与小孩个数<br>Ticket ：船票信息<br>Fare ：票价<br>Cabin ：客舱<br>Embarked ：登船港口</p>
+<p>查看数据的摘要信息：<br><img src="http://phal1xgub.bkt.clouddn.com/18-10-28/43441627.jpg" alt=""></p>
+<p>查看非数值类（object类型）特征的数据分布情况<br><img src="http://phal1xgub.bkt.clouddn.com/18-10-28/87098057.jpg" alt=""></p>
+<h5 id="初步分析"><a href="#初步分析" class="headerlink" title="初步分析"></a>初步分析</h5><p>看看各个属性和最后的Survived之间的关系。</p>
+<p><img src="http://phal1xgub.bkt.clouddn.com/18-10-28/2753343.jpg" alt=""></p>
+<p><img src="http://phal1xgub.bkt.clouddn.com/18-10-28/70004910.jpg" alt=""></p>
+<p><img src="http://phal1xgub.bkt.clouddn.com/18-10-28/50833042.jpg" alt=""></p>
+<p>年龄这类跨度较长的特征使用直方图分别查看生还与否的分布<br><img src="http://phal1xgub.bkt.clouddn.com/18-10-28/72825576.jpg" alt=""></p>
+<p><img src="http://phal1xgub.bkt.clouddn.com/18-10-28/77836464.jpg" alt=""></p>
+<p><img src="http://phal1xgub.bkt.clouddn.com/18-10-28/52884143.jpg" alt=""><br>不同登录港口对幸存率的影响<br><img src="http://phal1xgub.bkt.clouddn.com/18-10-28/99259876.jpg" alt=""></p>
+<p>可以看出：年龄、性别、几等仓位、是否有兄弟姐妹都对幸存率有很相关的影响</p>
+<h5 id="数据预处理"><a href="#数据预处理" class="headerlink" title="数据预处理"></a>数据预处理</h5><h6 id="缺失值处理："><a href="#缺失值处理：" class="headerlink" title="缺失值处理："></a>缺失值处理：</h6><p>通常遇到缺值的情况，我们会有几种常见的处理方式</p>
+<ul>
+<li>如果缺值的样本占总数比例极高，我们可能就直接舍弃了，作为特征加入的话，可能反倒带入noise，影响最后的结果了</li>
+<li>如果缺值的样本适中，而该属性非连续值特征属性(比如说类目属性)，那就把NaN作为一个新类别，加到类别特征中</li>
+<li>如果缺值的样本适中，而该属性为连续值特征属性，有时候我们会考虑给定一个step(比如这里的age，我们可以考虑每隔2/3岁为一个步长)，然后把它离散化，之后把NaN作为一个type加到属性类目中。</li>
+<li>有些情况下，缺失的值个数并不是特别多，那我们也可以试着根据已有的值，拟合一下数据，补充上。<br>由于年龄属性有缺失，所以先采用中位数填充：</li>
+</ul>
+<p>查看缺失值:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">print(traindata.isnull().any())</span><br><span class="line">print(testdata.isnull().any())</span><br></pre></td></tr></table></figure>
+<p><img src="http://phal1xgub.bkt.clouddn.com/18-10-28/80562408.jpg" alt=""></p>
+<p>PassengerId就是个ID号，<br>Survived是否生存的标记，0，1<br>Pclass票价等级，1、2、3<br>Name姓名，为了简单起见，我们先不使用这个特征<br>Sex，性别，我们转换为0、1（乘客男的更加多点）</p>
+<p>Age年龄，train和test集都有很多缺失值，我们使用中位数来替换缺失值（train和test集的分布都差不多）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"># 给age年龄字段的空值填充估值</span><br><span class="line"># 使用相同Pclass和Title的Age中位数来替代（对于中位数为空的组合，使用Title整体的中位数来替代）</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">for dataset in combine:</span><br><span class="line">    # 取6种组合的中位数</span><br><span class="line">    for i in range(0, 6):</span><br><span class="line">        </span><br><span class="line">        for j in range(0, 3):</span><br><span class="line">            guess_title_df = dataset[dataset[&quot;Title&quot;]==i+1][&quot;Age&quot;].dropna()</span><br><span class="line">            </span><br><span class="line">            guess_df = dataset[(dataset[&apos;Title&apos;] == i+1) &amp; (dataset[&apos;Pclass&apos;] == j+1)][&apos;Age&apos;].dropna()</span><br><span class="line">            </span><br><span class="line">            # age_mean = guess_df.mean()</span><br><span class="line">            # age_std = guess_df.std()</span><br><span class="line">            # age_guess = rnd.uniform(age_mean - age_std, age_mean + age_std)</span><br><span class="line"></span><br><span class="line">            age_guess = guess_df.median() if ~np.isnan(guess_df.median()) else guess_title_df.median()</span><br><span class="line">            #print(i,j,guess_df.median(),guess_title_df.median(),age_guess)</span><br><span class="line">            # Convert random age float to nearest .5 age</span><br><span class="line">            guess_ages[i,j] = int( age_guess/0.5 + 0.5 ) * 0.5</span><br><span class="line">    # 给满足6中情况的Age字段赋值</span><br><span class="line">    for i in range(0, 6):</span><br><span class="line">        for j in range(0, 3):</span><br><span class="line">            dataset.loc[ (dataset.Age.isnull()) &amp; (dataset.Title == i+1) &amp; (dataset.Pclass == j+1),</span><br><span class="line">                        &apos;Age&apos;] = guess_ages[i,j]</span><br><span class="line"></span><br><span class="line">    dataset[&apos;Age&apos;] = dataset[&apos;Age&apos;].astype(int)</span><br><span class="line"></span><br><span class="line">train_df.head()</span><br></pre></td></tr></table></figure>
+<p><img src="http://phal1xgub.bkt.clouddn.com/18-10-28/53710620.jpg" alt=""></p>
+<h6 id="非数值特征值离散化："><a href="#非数值特征值离散化：" class="headerlink" title="非数值特征值离散化："></a>非数值特征值离散化：</h6><p>cabin[yes,no],embarked[s,c,o],sex[male,female]<br><img src="http://phal1xgub.bkt.clouddn.com/18-10-28/19597981.jpg" alt=""></p>
+<p><img src="http://phal1xgub.bkt.clouddn.com/18-10-28/31857525.jpg" alt=""><br>是否有cabin<br><img src="http://phal1xgub.bkt.clouddn.com/18-10-28/48879195.jpg" alt=""></p>
+<h6 id="特征构建"><a href="#特征构建" class="headerlink" title="特征构建"></a>特征构建</h6><p>将parch（父母与小孩个数）和sibsip（堂兄弟/妹个数）组合为家庭规模familysize特征，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 创建家庭规模FamilySize组合特征</span><br><span class="line">for dataset in combine:</span><br><span class="line">    dataset[&quot;FamilySize&quot;] = dataset[&quot;Parch&quot;] + dataset[&quot;SibSp&quot;] + 1</span><br><span class="line">train_df[[&quot;FamilySize&quot;,&quot;Survived&quot;]].groupby([&quot;FamilySize&quot;],as_index = False).mean().sort_values(by=&quot;FamilySize&quot;,ascending=True)</span><br></pre></td></tr></table></figure>
+<p><img src="http://phal1xgub.bkt.clouddn.com/18-10-28/23344260.jpg" alt=""></p>
+<p>将fare票价特征创建区间特征:<br><img src="http://phal1xgub.bkt.clouddn.com/18-10-28/42686935.jpg" alt=""></p>
+<p><img src="http://phal1xgub.bkt.clouddn.com/18-10-28/64383745.jpg" alt=""></p>
+<p>另外，如果属性的数值幅度变化过大，在逻辑回归与梯度下降的话，会知道，各属性值之间scale差距太大，将对收敛速度造成几万点伤害值！甚至不收敛！ 所以使用scikit-learn里面的preprocessing模块对数值范围过大的属性做一个scaling，所谓scaling，其实就是将一些变化幅度较大的特征化到[-1,1]之内。</p>
+<p>特征工程完成后如下：</p>
+<p><img src="http://phal1xgub.bkt.clouddn.com/18-10-28/74720666.jpg" alt=""></p>
+<p>特征相关性可视化：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 用seaborn的heatmap对特征之间的相关性进行可视化</span><br><span class="line">colormap = plt.cm.RdBu</span><br><span class="line">plt.figure(figsize=(14,12))</span><br><span class="line">plt.title(&apos;Pearson Correlation of Features&apos;, y=1.05, size=15)</span><br><span class="line">sns.heatmap(train_df.astype(float).corr(),linewidths=0.1,vmax=1.0, </span><br><span class="line">            square=True, cmap=colormap, linecolor=&apos;white&apos;, annot=True)</span><br></pre></td></tr></table></figure>
+<p><img src="http://phal1xgub.bkt.clouddn.com/18-10-28/71290880.jpg" alt=""></p>
+<h5 id="建模和优化"><a href="#建模和优化" class="headerlink" title="建模和优化"></a>建模和优化</h5><h6 id="数据集准备："><a href="#数据集准备：" class="headerlink" title="数据集准备："></a>数据集准备：</h6><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">from sklearn.cross_validation import train_test_split</span><br><span class="line">X_train = train_df.drop(&quot;Survived&quot;,axis=1)</span><br><span class="line">Y_train = train_df[&quot;Survived&quot;]</span><br><span class="line">X_train, X_test, Y_train, Y_test = train_test_split(X_train, Y_train, test_size=0.3, random_state=0)</span><br></pre></td></tr></table></figure>
+<p>模型比较:</p>
+<ul>
+<li>LR:</li>
+</ul>
+<p><img src="http://phal1xgub.bkt.clouddn.com/18-10-28/79209102.jpg" alt=""></p>
+<ul>
+<li><p>SVM：<br><img src="http://phal1xgub.bkt.clouddn.com/18-10-28/45867680.jpg" alt=""></p>
+</li>
+<li><p>决策树：<br><img src="http://phal1xgub.bkt.clouddn.com/18-10-28/81603825.jpg" alt=""></p>
+</li>
+<li><p>朴素贝叶斯:</p>
+</li>
+</ul>
+<p><img src="http://phal1xgub.bkt.clouddn.com/18-10-28/89611435.jpg" alt=""></p>
+<h5 id="总结"><a href="#总结" class="headerlink" title="总结:"></a>总结:</h5><p>  可以优化的点：</p>
+<ul>
+<li>Age属性不使用现在的拟合方式，而是根据名称中的『Mr』『Mrs』『Miss』等的平均值进行填充。</li>
+<li>Age不做成一个连续值属性，而是使用一个步长进行离散化，变成离散的类目feature。</li>
+<li>Cabin再细化一些，对于有记录的Cabin属性，我们将其分为前面的字母部分(我猜是位置和船层之类的信息) 和 后面的数字部分(应该是房间号，有意思的事情是，如果你仔细看看原始数据，你会发现，这个值大的情况下，似乎获救的可能性高一些)。</li>
+<li>Pclass和Sex俩太重要了，我们试着用它们去组出一个组合属性来试试，这也是另外一种程度的细化。</li>
+<li>单加一个Child字段，Age&lt;=12的，设为1，其余为0(你去看看数据，确实小盆友优先程度很高啊)</li>
+<li>如果名字里面有『Mrs』，而Parch&gt;1的，我们猜测她可能是一个母亲，应该获救的概率也会提高，因此可以多加一个Mother字段，此种情况下设为1，其余情况下设为0</li>
+<li>登船港口可以考虑先去掉试试(Q和C本来就没权重，S有点诡异)</li>
+<li>把堂兄弟/兄妹 和 Parch 还有自己 个数加在一起组一个Family_size字段(考虑到大家族可能对最后的结果有影响)</li>
+<li>Name是一个我们一直没有触碰的属性，我们可以做一些简单的处理，比如说男性中带某些字眼的(‘Capt’, ‘Don’, ‘Major’, ‘Sir’)可以统一到一个Title，女性也一样。</li>
+<li>模型融合：模型融合可以比较好地缓解，训练过程中产生的过拟合问题，从而对于结果的准确度提升有一定的帮助。当我们手头上有一堆在同一份数据集上训练得到的分类器(比如logistic regression，SVM，KNN，random forest，神经网络)，那我们让他们都分别去做判定，然后对结果做投票统计，取票数最多的结果为最后结果。</li>
+</ul>
+<p>整个流程为:<br><img src="http://phal1xgub.bkt.clouddn.com/18-10-28/86373785.jpg" alt=""></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://mobyIsMe.github.io/2018/10/10/kaggle-titanic/" data-id="cjnszzo9w0001jrr0ahpuaw0c" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/10/16/hello-world/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Hello World
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/10/01/movielens/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">movielens</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/10/16/hello-world/">Hello World</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/10/kaggle-titanic/">kaggle-titanic</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/01/movielens/">movielens</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/30/tableau实践/">tableau实践</a>
+          </li>
+        
+          <li>
+            <a href="/2018/09/27/Tableau基本概念/">Tableau基本概念</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 moby<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

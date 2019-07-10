@@ -66,6 +66,73 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-一键生成数据报告" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/07/10/一键生成数据报告/" class="article-date">
+  <time datetime="2019-07-10T14:50:10.000Z" itemprop="datePublished">2019-07-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/07/10/一键生成数据报告/">一键生成数据报告</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>pandas_profiling可以迅速帮我们进行探索数据分析（exploratory data analysis）</p>
+</blockquote>
+<p>探索性数据分析（EDA）在理解数据集方面起着非常重要的作用。 无论是要构建机器学习模型还是仅仅是从给定数据中获取洞察力的练习，EDA都是首要任务。 虽然不可否认的是EDA非常重要，但执行探索性数据分析的任务与数据集的列数并行增长。</p>
+<p>例如：假设有一个包含10行x 2列的数据集。 只需单独指定这两个列名称并绘制执行EDA所需的所有绘图即可。 或者，如果数据集有20列，则需要重复相同的上述练习10次。 现在，还有另一层复杂性，因为“连续变量”和“分类变量”选择的可视化是不同的，因此当数据类型更改时，绘图的类型会发生变化。</p>
+<p>鉴于所有这些条件，EDA有时会成为一项繁琐的工作 - 但要记住它全部由一组规则驱动 - 如连续变量的情节<code>boxplot</code>和<code>histogram</code>，测量<code>缺失值</code>，如果它是分类的，则计算<code>频率</code>变量 - 从而为我们提供自动化事物的机会。 这是这个python模块<code>pandas_profiling</code>的基础，可以帮助自动化第一级EDA。</p>
+<p>对于每列，以下统计信息（如果与列类型相关）将显示在交互式HTML报告中：</p>
+<ul>
+<li><p><strong>要点</strong>：类型，唯一值，缺失值</p>
+</li>
+<li><p><strong>分位数统计</strong> :如最小值，Q1，中位数，Q3，最大值，范围，四分位数间距</p>
+</li>
+<li><p><strong>描述性统计</strong> :如均值，模式，标准差，总和，中位数绝对偏差，变异系数，峰度，偏度</p>
+</li>
+<li><p><strong>最常见的值</strong></p>
+</li>
+<li><p><strong>直方图</strong></p>
+</li>
+<li><p><strong>相关性</strong> 突出显示高度相关的变量，Spearman和Pearson矩阵</p>
+</li>
+</ul>
+<p>以Titanic数据集为例：</p>
+<ol>
+<li>首先，让我们导入数据并使用pandas来检索一些描述性统计信息：</li>
+</ol>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np <span class="comment"># linear algebra</span></span><br><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd <span class="comment"># data processing, CSV file I/O (e.g. pd.read_csv)</span></span><br><span class="line"><span class="keyword">import</span> pandas_profiling <span class="keyword">as</span> pp</span><br><span class="line">train = pd.read_csv(<span class="string">"../input/train.csv"</span>, encoding=<span class="string">'UTF-8'</span>, parse_dates = [<span class="string">'project_submitted_datetime'</span>])</span><br><span class="line"></span><br><span class="line">pp.ProfileReport(train) <span class="comment">#查看数据整体情况</span></span><br></pre></td></tr></table></figure>
+<p><img src="https://user-images.githubusercontent.com/9191594/60982712-3fe04000-a36b-11e9-8a60-f9aaab02be3a.png" alt="image"><br><img src="https://user-images.githubusercontent.com/9191594/60982764-55556a00-a36b-11e9-9fe1-c6c201e46ed4.png" alt="image"><br><img src="https://user-images.githubusercontent.com/9191594/60982816-6f8f4800-a36b-11e9-8f4d-5154e7eb2f73.png" alt="image"><br><img src="https://user-images.githubusercontent.com/9191594/60982879-8afa5300-a36b-11e9-8f55-8ae51021a9e6.png" alt="image"><br><img src="https://user-images.githubusercontent.com/9191594/60982914-9baac900-a36b-11e9-9a9d-14ed1941b246.png" alt="image"><br><img src="https://user-images.githubusercontent.com/9191594/60983136-078d3180-a36c-11e9-9596-58e1ba5c121f.png" alt="image"><br><img src="https://user-images.githubusercontent.com/9191594/60983297-47541900-a36c-11e9-92ea-c27249c85cce.png" alt="image"><br>右下角有一个toggle details，这里详细描述了每一个属性的统计结果：<br>以sibsip为例：<br><img src="https://user-images.githubusercontent.com/9191594/60983488-969a4980-a36c-11e9-9244-6b249297ed02.png" alt="image"><br>panda分别从统计维度，直方图，众数，极值4个维度来描述这个亲戚属性<br>其中统计维度又可分为数值统计（中位数，4分位数，5%，95%的数值）和描述性统计（标准差，峰度，均值，方差等）<br><img src="https://user-images.githubusercontent.com/9191594/60983547-af0a6400-a36c-11e9-8c3d-35e1d536a774.png" alt="image"><br><img src="https://user-images.githubusercontent.com/9191594/60983899-6010fe80-a36d-11e9-8596-9bba6c288680.png" alt="image"><br><img src="https://user-images.githubusercontent.com/9191594/60983930-6bfcc080-a36d-11e9-8963-67b22d087420.png" alt="image"><br><img src="https://user-images.githubusercontent.com/9191594/60983952-73bc6500-a36d-11e9-809e-f4373c6aba75.png" alt="image"></p>
+<p>对比一下describe生成的报告：<br><img src="https://user-images.githubusercontent.com/9191594/60984706-c0547000-a36e-11e9-94f3-6b3846028659.png" alt="image"></p>
+<p>最厉害的是，这还支持生成交互式的HTML的数据报告：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pfr = pandas_profiling.ProfileReport(titanic)</span><br><span class="line">pfr.to_file(<span class="string">'report.html'</span>)</span><br></pre></td></tr></table></figure>
+<p>生成的报告在这里：<br>链接: <a href="https://pan.baidu.com/s/1fmiry895dirBGBRtatY5hA" target="_blank" rel="noopener">https://pan.baidu.com/s/1fmiry895dirBGBRtatY5hA</a> 提取码: aywh </p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://mobyIsMe.github.io/2019/07/10/一键生成数据报告/" data-id="cjxxgcfc500028yr06fet1ggb" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-特征选择" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/05/10/特征选择/" class="article-date">
@@ -147,7 +214,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mobyIsMe.github.io/2019/05/10/特征选择/" data-id="cjxxcvkfg0005tar0kw2m7was" class="article-share-link">Share</a>
+      <a data-url="http://mobyIsMe.github.io/2019/05/10/特征选择/" data-id="cjxxgcfcn00068yr0q5soapy3" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据分析，数据挖掘/">数据分析，数据挖掘</a></li></ul>
@@ -194,7 +261,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mobyIsMe.github.io/2018/10/16/hello-world/" data-id="cjxxcvkev0000tar0hiq1gmeg" class="article-share-link">Share</a>
+      <a data-url="http://mobyIsMe.github.io/2018/10/16/hello-world/" data-id="cjxxgcfbx00008yr0j7piaar9" class="article-share-link">Share</a>
       
       
     </footer>
@@ -438,7 +505,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mobyIsMe.github.io/2018/10/10/推荐架构/" data-id="cjxxcvkfw0008tar06896n7qf" class="article-share-link">Share</a>
+      <a data-url="http://mobyIsMe.github.io/2018/10/10/推荐架构/" data-id="cjxxgcfdd00098yr0gnx98s39" class="article-share-link">Share</a>
       
       
     </footer>
@@ -569,7 +636,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mobyIsMe.github.io/2018/10/10/kaggle-titanic/" data-id="cjxxcvkfe0003tar0goqpift8" class="article-share-link">Share</a>
+      <a data-url="http://mobyIsMe.github.io/2018/10/10/kaggle-titanic/" data-id="cjxxgcfck00048yr0ig0vecw7" class="article-share-link">Share</a>
       
       
     </footer>
@@ -654,7 +721,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mobyIsMe.github.io/2018/10/01/movielens/" data-id="cjxxcvkff0004tar08rsw3392" class="article-share-link">Share</a>
+      <a data-url="http://mobyIsMe.github.io/2018/10/01/movielens/" data-id="cjxxgcfcm00058yr0xik8bivi" class="article-share-link">Share</a>
       
       
     </footer>
@@ -702,7 +769,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mobyIsMe.github.io/2018/09/30/tableau实践/" data-id="cjxxcvkf40002tar06f8u0cgm" class="article-share-link">Share</a>
+      <a data-url="http://mobyIsMe.github.io/2018/09/30/tableau实践/" data-id="cjxxgcfc700038yr0k6rx83ax" class="article-share-link">Share</a>
       
       
     </footer>
@@ -850,7 +917,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mobyIsMe.github.io/2018/09/27/Tableau基本概念/" data-id="cjxxcvkf10001tar0osq1klnj" class="article-share-link">Share</a>
+      <a data-url="http://mobyIsMe.github.io/2018/09/27/Tableau基本概念/" data-id="cjxxgcfc300018yr0xfl4wzv2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -891,7 +958,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li></ul>
     </div>
   </div>
 
@@ -902,6 +969,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/07/10/一键生成数据报告/">一键生成数据报告</a>
+          </li>
         
           <li>
             <a href="/2019/05/10/特征选择/">特征选择</a>
@@ -917,10 +988,6 @@
         
           <li>
             <a href="/2018/10/10/kaggle-titanic/">kaggle-titanic</a>
-          </li>
-        
-          <li>
-            <a href="/2018/10/01/movielens/">movielens</a>
           </li>
         
       </ul>

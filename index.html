@@ -122,7 +122,126 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mobyIsMe.github.io/2019/07/10/一键生成数据报告/" data-id="cjxxgi7f90002hqr0mke54lbe" class="article-share-link">Share</a>
+      <a data-url="http://mobyIsMe.github.io/2019/07/10/一键生成数据报告/" data-id="cjxxhv3t80002k2r0h75xmnxw" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-数据预处理常见姿势" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/06/11/数据预处理常见姿势/" class="article-date">
+  <time datetime="2019-06-10T16:34:37.000Z" itemprop="datePublished">2019-06-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/06/11/数据预处理常见姿势/">数据预处理常见姿势</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="数据清洗的6个小pose："><a href="#数据清洗的6个小pose：" class="headerlink" title="数据清洗的6个小pose："></a>数据清洗的6个小pose：</h3><ul>
+<li><p>删除 DataFrame 中的不必要 columns，rows</p>
+<p><code>df.drop(to_drop_columns, inplace=True, axis=1)</code></p>
+</li>
+<li><p>改变 DataFrame 的 index</p>
+<p><code>df.set_index(column_name, inplace=True)</code></p>
+</li>
+<li><p>使用 .str() 方法来清洗 columns<br>筛选出要清洗的列，改变数据格式<br><code>np.where(condition, then, else)</code><br>np.where函数在一个嵌套的结构中被调用，condition是一个通过st.contains()得到的布尔的Series。contains()方法与Python内建的in关键字一样，用于发现一个个体是否发生在一个迭代器中。</p>
+</li>
+</ul>
+<ul>
+<li><p>使用 DataFrame.applymap() 函数按元素清洗整个数据集<br>applymap()方法从DataFrame中提取每个元素，传递到函数中，     然后覆盖原来的值</p>
+</li>
+<li><p>重命名 columns 为一组更易识别的标签</p>
+<p><code>df.rename(columns=new_names, inplace=True)</code></p>
+</li>
+</ul>
+<h3 id="缺失值处理："><a href="#缺失值处理：" class="headerlink" title="缺失值处理："></a>缺失值处理：</h3><ul>
+<li>删除记录：<ul>
+<li><strong>优点：</strong>最简单粗暴；</li>
+<li><strong>缺点：</strong></li>
+<li>牺牲了大量的数据，通过减少历史数据换取完整的信息，这样可能丢失了很多隐藏的重要信息；</li>
+<li>当缺失数据比例较大时，特别是缺失数据非随机分布时，直接删除可能会导致数据发生偏离，比如原本的正态分布变为非正太；</li>
+<li>这种方法在样本数据量十分大且缺失值不多的情况下非常有效，但如果样本量本身不大且缺失也不少，那么不建议使用。</li>
+<li>可以使用 pandas 的 dropna 来直接删除有缺失值的特征。</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#删除数据表中含有空值的行</span></span><br><span class="line">df.dropna(how=<span class="string">'any'</span>)</span><br></pre></td></tr></table></figure>
+<ul>
+<li>数据填补：对缺失值的插补大体可分为两种：替换缺失值，拟合缺失值，虚拟变量。替换是通过数据中非缺失数据的相似性来填补，其核心思想是发现相同群体的共同特征，拟合是通过其他特征建模来填补，虚拟变量是衍生的新变量代替缺失值。<ul>
+<li>模型预测  ：<ul>
+<li>k-means:</li>
+<li>回归预测</li>
+<li>最大似然估计：EM.该方法比删除个案和单值插补更有吸引力，它一个重要前提：适用于大样本。有效样本的数量足够以保证ML估计值是渐近无偏的并服从正态分布。但是这种方法可能会陷入局部极值，收敛速度也不是很快，并且计算很复杂，且仅限于线性模型。   </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<pre><code>* 均值插补：
+    * 对于定类数据：使用 **众数**（mode）填补，比如一个学校的男生和女生的数量，男生500人，女生50人，那么对于其余的缺失值我们会用人数较多的男生来填补。
+    * 对于定量（定比）数据：使用**平均数**（mean）或**中位数**（median）填补，比如一个班级学生的身高特征，对于一些同学缺失的身高值就可以使用全班同学身高的平均值或中位数来填补。一般如果特征分布为正太分布时，使用平均值效果比较好，而当分布由于异常值存在而不是正太分布的情况下，使用中位数效果比较好。
+
+    &gt; 注：此方法虽然简单，但是不够精准，可能会引入噪声，或者会改变特征原有的分布。
+</code></pre><p>下图左为填补前的特征分布，图右为填补后的分布，明显发生了畸变。因此，如果缺失值是随机性的，那么用平均值比较适合保证无偏，否则会改变原分布。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#使用price均值对NA进行填充</span></span><br><span class="line">df[<span class="string">'price'</span>].fillna(df[<span class="string">'price'</span>].mean())</span><br><span class="line">df[<span class="string">'price'</span>].fillna(df[<span class="string">'price'</span>].median())</span><br></pre></td></tr></table></figure>
+<ul>
+<li>不处理。补齐处理只是将未知值补以我们的主观估计值，不一定完全符合客观事实，在对不完备信息进行补齐处理的同时，我们或多或少地改变了原始的信息系统。而且，对空值不正确的填充往往将新的噪声引入数据中，使挖掘任务产生错误的结果。因此，在许多情况下，我们还是希望在保持原始信息不发生变化的前提下对信息系统进行处理。在实际应用中，一些模型无法应对具有缺失值的数据，因此要对缺失值进行处理。然而还有一些模型本身就可以应对具有缺失值的数据，此时无需对数据进行处理，比如Xgboost，rfr等高级模型。</li>
+</ul>
+<p>思维导图总结为：<br><img src="https://user-images.githubusercontent.com/9191594/60988615-8a1aee80-a376-11e9-82b8-f426b49aaae5.png" alt="image"></p>
+<h3 id="离群点检测："><a href="#离群点检测：" class="headerlink" title="离群点检测："></a>离群点检测：</h3><p>离群点的概率定义：离群点是一个对象，关于数据的概率分布模型，它具有低概率。这种情况的前提是必须知道数据集服从什么分布，如果估计错误就造成了重尾分布。</p>
+<ul>
+<li><p>基于统计的方法：我们可以直接使用describe()来观察数据的统计性描述，或者简单使用散点图也能很清晰的观察到异常值的存在。</p>
+<ul>
+<li>3∂原则：这个原则有个条件：数据需要服从正态分布。在3∂原则下，异常值如超过3倍标准差，那么可以将其视为异常值。正负3∂的概率是99.7%，那么距离平均值3∂之外的值出现的概率为P(|x-u| &gt; 3∂) &lt;= 0.003，属于极个别的小概率事件。如果数据不服从正态分布，也可以用远离平均值的多少倍标准差来描述。<br>*<img src="https://user-images.githubusercontent.com/9191594/60988760-dcf4a600-a376-11e9-97b0-886154edfbcf.png" alt="image"></li>
+<li>箱型图：利用箱型图的四分位距（IQR）对异常值进行检测，四分位距(IQR)就是上四分位与下四分位的差值。而我们通过IQR的1.5倍为标准，规定：超过（上四分位+1.5倍IQR距离，或者下四分位-1.5倍IQR距离）的点为异常值。</li>
+<li><p><img src="https://user-images.githubusercontent.com/9191594/60988799-f7c71a80-a376-11e9-9179-90de33427cda.png" alt="image"></p>
+</li>
+<li><p>概率分布模型检测：计算对象符合该模型的概率，把具有低概率的对象视为异常点。如果模型是簇的集合，则异常是不显著属于任何簇的对象；如果模型是回归时，异常是相对远离预测值的对象</p>
+</li>
+</ul>
+</li>
+<li><p>基于KNN：需要注意的是：离群点得分对k的取值高度敏感。如果k太小，则少量的邻近离群点可能导致较低的离群点得分；如果K太大，则点数少于k的簇中所有的对象可能都成了离群点。为了使该方案对于k的选取更具有鲁棒性，可以使用k个最近邻的平均距离。</p>
+<ul>
+<li>优缺点：（1）简单；（2）缺点：基于邻近度的方法需要O(m2)时间，大数据集不适用；（3）该方法对参数的选择也是敏感的；（4）不能处理具有不同密度区域的数据集，因为它使用全局阈值，不能考虑这种密度的变化。</li>
+</ul>
+</li>
+<li>基于密度：一种常用的定义密度的方法是，定义密度为到k个最近邻的平均距离的倒数。如果该距离小，则密度高，反之亦然。另一种密度定义是使用DBSCAN聚类算法使用的密度定义，即一个对象周围的密度等于该对象指定距离d内对象的个数。<ul>
+<li>优缺点：（1）给出了对象是离群点的定量度量，并且即使数据具有不同的区域也能够很好的处理；（2）与基于距离的方法一样，这些方法必然具有O(m2)的时间复杂度。对于低维数据使用特定的数据结构可以达到O(mlogm)；（3）参数选择是困难的。虽然LOF算法通过观察不同的k值，然后取得最大离群点得分来处理该问题，但是，仍然需要选择这些值的上下界。</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li>基于聚类的方法<br>一个对象是基于聚类的离群点，如果该对象不强属于任何簇，那么该对象属于离群点。离群点对初始聚类的影响：如果通过聚类检测离群点，则由于离群点影响聚类，存在一个问题：结构是否有效。这也是k-means算法的缺点，对离群点敏感。为了处理该问题，可以使用如下方法：对象聚类，删除离群点，对象再次聚类（这个不能保证产生最优结果）。<br>优缺点：（1）基于线性和接近线性复杂度（k均值）的聚类技术来发现离群点可能是高度有效的；（2）簇的定义通常是离群点的补，因此可能同时发现簇和离群点；（3）产生的离群点集和它们的得分可能非常依赖所用的簇的个数和数据中离群点的存在性；（4）聚类算法产生的簇的质量对该算法产生的离群点的质量影响非常大。</li>
+</ul>
+<h3 id="异常值的处理方法"><a href="#异常值的处理方法" class="headerlink" title="异常值的处理方法"></a>异常值的处理方法</h3><ul>
+<li>删除含有异常值的记录：直接将含有异常值的记录删除；</li>
+<li>视为缺失值：将异常值视为缺失值，利用缺失值处理的方法进行处理；</li>
+<li>平均值修正：可用前后两个观测值的平均值修正该异常值；</li>
+<li>不处理：直接在具有异常值的数据集上进行数据挖掘；</li>
+</ul>
+<p>是否要删除异常值可根据实际情况考虑。因为一些模型对异常值不很敏感，即使有异常值也不影响模型效果，但是一些模型比如逻辑回归LR对异常值很敏感，如果不进行处理，可能会出现过拟合等非常差的效果。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://mobyIsMe.github.io/2019/06/11/数据预处理常见姿势/" data-id="cjxxhv3tv0006k2r0djpw1p2x" class="article-share-link">Share</a>
       
       
     </footer>
@@ -213,7 +332,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mobyIsMe.github.io/2019/05/10/特征选择/" data-id="cjxxgi7fn0006hqr0nrwv80ad" class="article-share-link">Share</a>
+      <a data-url="http://mobyIsMe.github.io/2019/05/10/特征选择/" data-id="cjxxhv3tw0007k2r07g1le2nk" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/数据分析，数据挖掘/">数据分析，数据挖掘</a></li></ul>
@@ -260,7 +379,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mobyIsMe.github.io/2018/10/16/hello-world/" data-id="cjxxgi7f00000hqr05io3e8yz" class="article-share-link">Share</a>
+      <a data-url="http://mobyIsMe.github.io/2018/10/16/hello-world/" data-id="cjxxhv3t00000k2r04vndhfib" class="article-share-link">Share</a>
       
       
     </footer>
@@ -504,7 +623,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mobyIsMe.github.io/2018/10/10/推荐架构/" data-id="cjxxgi7ga0009hqr0ow5w2333" class="article-share-link">Share</a>
+      <a data-url="http://mobyIsMe.github.io/2018/10/10/推荐架构/" data-id="cjxxhv3ur000ak2r00qc2biof" class="article-share-link">Share</a>
       
       
     </footer>
@@ -635,7 +754,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mobyIsMe.github.io/2018/10/10/kaggle-titanic/" data-id="cjxxgi7fl0004hqr0s6vtsjes" class="article-share-link">Share</a>
+      <a data-url="http://mobyIsMe.github.io/2018/10/10/kaggle-titanic/" data-id="cjxxhv3tr0004k2r0yhhbjb45" class="article-share-link">Share</a>
       
       
     </footer>
@@ -720,7 +839,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mobyIsMe.github.io/2018/10/01/movielens/" data-id="cjxxgi7fm0005hqr0bba76u9r" class="article-share-link">Share</a>
+      <a data-url="http://mobyIsMe.github.io/2018/10/01/movielens/" data-id="cjxxhv3tt0005k2r0zy9nchy0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -768,7 +887,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mobyIsMe.github.io/2018/09/30/tableau实践/" data-id="cjxxgi7fb0003hqr01bn6sz5j" class="article-share-link">Share</a>
+      <a data-url="http://mobyIsMe.github.io/2018/09/30/tableau实践/" data-id="cjxxhv3t50001k2r0iurgeqdw" class="article-share-link">Share</a>
       
       
     </footer>
@@ -916,7 +1035,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://mobyIsMe.github.io/2018/09/27/Tableau基本概念/" data-id="cjxxgi7f50001hqr0rv6tvgo0" class="article-share-link">Share</a>
+      <a data-url="http://mobyIsMe.github.io/2018/09/27/Tableau基本概念/" data-id="cjxxhv3ta0003k2r0xq7u3txs" class="article-share-link">Share</a>
       
       
     </footer>
@@ -957,7 +1076,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li></ul>
     </div>
   </div>
 
@@ -974,6 +1093,10 @@
           </li>
         
           <li>
+            <a href="/2019/06/11/数据预处理常见姿势/">数据预处理常见姿势</a>
+          </li>
+        
+          <li>
             <a href="/2019/05/10/特征选择/">特征选择</a>
           </li>
         
@@ -983,10 +1106,6 @@
         
           <li>
             <a href="/2018/10/10/推荐架构/">推荐架构</a>
-          </li>
-        
-          <li>
-            <a href="/2018/10/10/kaggle-titanic/">kaggle-titanic</a>
           </li>
         
       </ul>

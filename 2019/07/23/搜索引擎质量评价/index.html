@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>搜索引擎质量评价 | Moby Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="[toc] CG（Cumulative Gain）累计增益它是在这个搜索结果 list 里面所有的结果的等级对应的得分的总和。如一个搜索结果 list 页面有 p 个结果，CG被定义为：  其中 reli 为位置i上的文档的相关度。CG只考虑文档的相关性，不考虑文档所处的位置，从CG的计算公式可以看出，前p个文档的位置如果发生了变化，CG的值并不会改变。 DCG(Discounted Cumula">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搜索引擎质量评价">
+<meta property="og:url" content="http://mobyIsMe.github.io/2019/07/23/搜索引擎质量评价/index.html">
+<meta property="og:site_name" content="Moby Blog">
+<meta property="og:description" content="[toc] CG（Cumulative Gain）累计增益它是在这个搜索结果 list 里面所有的结果的等级对应的得分的总和。如一个搜索结果 list 页面有 p 个结果，CG被定义为：  其中 reli 为位置i上的文档的相关度。CG只考虑文档的相关性，不考虑文档所处的位置，从CG的计算公式可以看出，前p个文档的位置如果发生了变化，CG的值并不会改变。 DCG(Discounted Cumula">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://user-images.githubusercontent.com/9191594/61648068-4793d300-ace1-11e9-857b-d4a10be0b361.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/9191594/61648182-89247e00-ace1-11e9-9bf7-7f73a08eb0f4.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/9191594/61648385-e7e9f780-ace1-11e9-8ebd-f18ea181201e.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/9191594/61648412-f801d700-ace1-11e9-8971-b79d2edc24ed.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/9191594/61648682-7bbbc380-ace2-11e9-8f9d-6ceec1232cae.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/9191594/61798468-f0663d80-ae5b-11e9-9f8a-a29ea792bbad.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/9191594/61798581-1be92800-ae5c-11e9-9cc0-666408e7cec0.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/9191594/61798581-1be92800-ae5c-11e9-9cc0-666408e7cec0.png">
+<meta property="og:image" content="https://user-images.githubusercontent.com/9191594/61800408-8b144b80-ae5f-11e9-9251-4353a6703469.png">
+<meta property="og:updated_time" content="2019-07-24T14:11:21.127Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="搜索引擎质量评价">
+<meta name="twitter:description" content="[toc] CG（Cumulative Gain）累计增益它是在这个搜索结果 list 里面所有的结果的等级对应的得分的总和。如一个搜索结果 list 页面有 p 个结果，CG被定义为：  其中 reli 为位置i上的文档的相关度。CG只考虑文档的相关性，不考虑文档所处的位置，从CG的计算公式可以看出，前p个文档的位置如果发生了变化，CG的值并不会改变。 DCG(Discounted Cumula">
+<meta name="twitter:image" content="https://user-images.githubusercontent.com/9191594/61648068-4793d300-ace1-11e9-857b-d4a10be0b361.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Moby Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Moby Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">T_blog</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://mobyIsMe.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-搜索引擎质量评价" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/07/23/搜索引擎质量评价/" class="article-date">
+  <time datetime="2019-07-22T16:25:44.000Z" itemprop="datePublished">2019-07-23</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      搜索引擎质量评价
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>[toc]</p>
+<h1 id="CG（Cumulative-Gain）累计增益"><a href="#CG（Cumulative-Gain）累计增益" class="headerlink" title="CG（Cumulative Gain）累计增益"></a>CG（Cumulative Gain）累计增益</h1><p>它是在这个搜索结果 list 里面所有的结果的等级对应的<strong>得分的总和</strong>。如一个搜索结果 list 页面有 p 个结果，CG被定义为：</p>
+<p><img src="https://user-images.githubusercontent.com/9191594/61648068-4793d300-ace1-11e9-857b-d4a10be0b361.png" alt="image"></p>
+<p>其中 reli 为位置i上的文档的相关度。<br>CG只考虑文档的相关性，不考虑文档所处的位置，从CG的计算公式可以看出，前p个文档的位置如果发生了变化，CG的值并不会改变。</p>
+<h2 id="DCG-Discounted-Cumulative-Gain-累计折损增益"><a href="#DCG-Discounted-Cumulative-Gain-累计折损增益" class="headerlink" title="DCG(Discounted Cumulative Gain)累计折损增益"></a>DCG(Discounted Cumulative Gain)累计折损增益</h2><p>DCG在信息检索中，它通常用于衡量 Web搜索引擎算法或相关应用程序的有效性。<br>DCG 在搜索引擎结果<strong>集中使用文档的相关性评分</strong>，<strong>根据文档在结果列表中的位置来衡量文档的有用性或增益</strong>。<strong>增益从结果列表的顶部累积到底部，每个结果的增益在较低的等级上要进行打折</strong>。<br>  搜索引擎一般采用 PI（per item）的方式进行评测，简单地说就是<strong>逐条对搜索结果进行分等级的打分</strong>。假设我们现在在 Google 上搜索一个词，然后得到5个结果。我们对这些结果进行3个等级的区分：Good（好）、Fair（一般）、Bad（差），然后赋予他们分值分别为3、2、1，假定通过逐条打分后，得到这5个结果的分值分别为3、2 、1 、3、 2</p>
+<p><strong>使用DCG及其他相关测量标准做出了两个假设： </strong><br>在搜索引擎结果列表中较早出现（具有较高排名）时，高度相关的文档会更有用<br>在PI标注时，等级高的结果比等级低的结果好，即Good要比Fair好、Fair要比Bad好</p>
+<p>DCG在CG的基础上增加了对文档位置的考虑。<br><img src="https://user-images.githubusercontent.com/9191594/61648182-89247e00-ace1-11e9-9bf7-7f73a08eb0f4.png" alt="image"></p>
+<p>位置越靠后的文档，增益的折损越大。到第i个位置的时候，它的价值是 1/log2(i+1)，那么第i个结果产生的效益就是 reli * 1/log2(i+1)</p>
+<h2 id="Normalized-DCG-归一化累计折损增益"><a href="#Normalized-DCG-归一化累计折损增益" class="headerlink" title="Normalized DCG - 归一化累计折损增益"></a>Normalized DCG - 归一化累计折损增益</h2><p>　NDCG， Normalized 的DCG，由于搜索结果随着检索词的不同，返回的数量是不一致的，而DCG是一个累加的值，没法针对两个不同的搜索结果进行比较，因此需要归一化处理，这里是处以IDCG。<br>　<br><strong>归一化过程：</strong><br>将结果集中的所有文档按相关度降序排列，取相关度最高的p个文档，计算出DCG，也叫位置p上的理想化的DCG (IDCG)，IDCG为理想情况下最大的DCG值。</p>
+<p>nDCG计算公式：<br><img src="https://user-images.githubusercontent.com/9191594/61648385-e7e9f780-ace1-11e9-8ebd-f18ea181201e.png" alt="image"><br>IDCG计算公式：<br><img src="https://user-images.githubusercontent.com/9191594/61648412-f801d700-ace1-11e9-8971-b79d2edc24ed.png" alt="image"></p>
+<p>其中：<br>|REL|表示结果集中相关度最高的p个文档（按相关度降序排列）</p>
+<p>对所有query的nDCG值计算一个平均值，可以得到一个排序算法的平均排序质量。</p>
+<p>对于一个完美的排序算法， DCGp会等于IDCGp，这样计算出来的<br>nDCG值为1。所有的nDCG值落在[0,1]区间内，这样就可以对不同query的排序质量进行比较。</p>
+<p><strong>计算nDCG时最困难的地方在于：当只能获取结果集中的部分文档时，无法得到理想化的排序结果。</strong></p>
+<h2 id="一个简单的例子"><a href="#一个简单的例子" class="headerlink" title="一个简单的例子"></a>一个简单的例子</h2><p>假设对于一个query，搜索结果的前6个为 (D1, D2, D3, D4, D5, D6)。<br>让一个经验丰富的人来判断每个文档的相关度并打分：</p>
+<p>0：不相关<br>3：高度相关<br>1,2：介于0,3之间，中度相关。</p>
+<p><strong>打分的结果如下：</strong><br>D1 : 3<br>D2 : 2<br>D3 : 3<br>D4 : 0<br>D5 : 1<br>D6 : 2</p>
+<p><strong>计算CG</strong><br>CG6 = 3 + 2 +3 + 0 + 1 + 2 = 11, 任意调换2个文档的位置都不会影响CG的值。</p>
+<p><strong>计算DCG</strong><br><img src="https://user-images.githubusercontent.com/9191594/61648682-7bbbc380-ace2-11e9-8f9d-6ceec1232cae.png" alt="image"></p>
+<p>DCG6 = 3 + 1.262 + 1.5 + 0 + 0.387 + 0.712 = 6.861<br>此时，如果交换D3和D4的位置，会导致DCG值的减少。</p>
+<p><strong>计算nDCG</strong><br>假设结果集中还有2个文档：<br>D7 : 3<br>D8 : 2</p>
+<p>则理想化的排序结果如下：<br>3, 3, 3, 2, 2, 2, 1, 0<br>IDCG6 = 8.740<br>nDCG6 = DCG6 ÷ IDCG6 = 6.861 ÷ 8.740 = 0.785</p>
+<h2 id="局限"><a href="#局限" class="headerlink" title="局限"></a>局限</h2><ul>
+<li><strong>规范化的DCG度量标准不会对结果中的错误文档造成不利影响。</strong> 例如，如果查询分别返回两个分数为1,1,1和1,1,1,0的结果，则即使后者包含错误文档，两者也会被视为同样好。 对于 rank 判断优秀，公平，糟糕的人可能会使用数字分数1,0，-1而不是2,1,0。这时如果返回错误结果，将会使分数降低，此时考虑的是结果的精度而不是召回率。注意此方法可能会导致总体负分。</li>
+<li><strong>归一化的DCG不会对结果中丢失的文档进行处罚。</strong> 例如，如果一个查询分别返回两个分数为1,1,1和1,1,1,1,1的结果，则两者都被视为同样好，但是理想的DCG计算前者的等级为3和计算后者的等级为5。 考虑此限制的一种方法是强制固定result集的大小，缺失文档要使用最小分数。 在前面的例子中，我们将使用分数1,1,1,0,0和1,1,1,1,1并将nDCG引用为 nDCG@5。</li>
+<li><strong>nDCG可能不适合于测量通常具有几个同样好的结果的query的性能。</strong> 当result集大小确定时，如果不够大，则会导致所有结果评分一样，即使后面的结果更好。</li>
+</ul>
+<h1 id="PR-Precision-Recall"><a href="#PR-Precision-Recall" class="headerlink" title="PR(Precision Recall)"></a>PR(Precision Recall)</h1><p> R（recall）表示召回率、查全率，指查询返回结果中相关文档占所有相关文档的比例；P（precision）表示准确率、精度，指查询返回结果中相关文档占所有查询结果文档的比例；<br> <img src="https://user-images.githubusercontent.com/9191594/61798468-f0663d80-ae5b-11e9-9f8a-a29ea792bbad.png" alt="image"><br>  一般来说，Recall 和 Precision 反映了模型性能的两个方面，单一依靠某个指标并不能较为全面的评价一个模型的性能。   此时引入 F-Score/F-measure 作为综合指标，平衡 recall 和 precision 的影响，较为全面的评价一个模型<br>  <img src="https://user-images.githubusercontent.com/9191594/61798581-1be92800-ae5c-11e9-9cc0-666408e7cec0.png" alt="image"><br>  其中，F1-Score 表示准确率和召回率一样重要；F2-Score 表示召回率比准确率重要一倍；F0.5-Score 表示准确率比召回率重要一倍<br>  <img src="https://user-images.githubusercontent.com/9191594/61798581-1be92800-ae5c-11e9-9cc0-666408e7cec0.png" alt="image"></p>
+<p>  这里为什么使用调和平均而不是算术平均来计算F值呢？考虑极端的情况，如果搜索结果返回所有的文档，那么此时召回率就是100%，这时的F值至少为50%，这显然是不合理的。而调和平均值小于等于算术平均值和几何平均值，如果两个求平均的数之间差距比较大，那么调和平均值更接近其中较小的值。</p>
+<h1 id="MAP"><a href="#MAP" class="headerlink" title="MAP"></a>MAP</h1><p>准确率，召回率和F值都是利用无序的文当集合进行计算，而搜索引擎返回的结果通常是有序的，因此有必要对这些指标进行扩展以考虑位置信息。</p>
+<p>MAP(Mean Average Precision)是近年来比较流行的评价指标, MAP在准确率的基础上考虑了位置的因素。</p>
+<p>首先对于单个查询，其平均准确率的具体计算方法如下：<br><img src="https://user-images.githubusercontent.com/9191594/61800408-8b144b80-ae5f-11e9-9251-4353a6703469.png" alt="image"><br>其中r是相关文档的总数，Q是查询总数。</p>
+<p>查询集合的平均准确率由所有单个查询的MAP值的平均。</p>
+<p>总的来说，系统检索出来的相关文档在列表中越靠前，MAP的值就越高。如果系统没有返回相关文档，则MAP=0.</p>
+<p>eg: 查询 query1 对应总共有4个相关文档，查询 query2 对应总共有5个相关文档。当通过模型执行查询1、2时，分别检索出4个相关文档（Rank=1、2、4、7）和3个相关文档（Rank=1、3、5）</p>
+<p>则 ：<br>query1AP=(1/1+2/2+3/4+4/7)/4=0.83<br>query2AP=(1/1+2/3+3/5+0+0)/5=0.45<br>query1AP=(1/1+2/2+3/4+4/7)/4=0.83<br>query2AP=(1/1+2/3+3/5+0+0)/5=0.45，<br>最后 MAP=(0.83+0.45)/2=0.64</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://mobyIsMe.github.io/2019/07/23/搜索引擎质量评价/" data-id="cjyhbtex400024br09skx499f" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/07/10/一键生成数据报告/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">一键生成数据报告</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/数据分析，数据挖掘/">数据分析，数据挖掘</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/数据分析，数据挖掘/" style="font-size: 10px;">数据分析，数据挖掘</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">July 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">June 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/07/23/搜索引擎质量评价/">搜索引擎质量评价</a>
+          </li>
+        
+          <li>
+            <a href="/2019/07/10/一键生成数据报告/">一键生成数据报告</a>
+          </li>
+        
+          <li>
+            <a href="/2019/06/11/数据预处理常见姿势/">数据预处理常见姿势</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/10/特征选择/">特征选择</a>
+          </li>
+        
+          <li>
+            <a href="/2018/10/16/hello-world/">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 moby<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
